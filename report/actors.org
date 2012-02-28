@@ -1,0 +1,77 @@
+#+TITLE:     actors.org
+#+AUTHOR:    Tomas Herman
+#+EMAIL:     tomasherman@Tomas-Hermans-MacBook.local
+#+DATE:      2012-02-25 Sat
+#+DESCRIPTION: 
+#+KEYWORDS: 
+#+LANGUAGE:  en
+#+OPTIONS:   H:3 num:t toc:t \n:nil @:t ::t |:t ^:t -:t f:t *:t <:t
+#+OPTIONS:   TeX:t LaTeX:nil skip:nil d:nil todo:t pri:nil tags:not-in-toc
+#+INFOJS_OPT: view:nil toc:nil ltoc:t mouse:underline buttons:0 path:http://orgmode.org/org-info.js
+#+EXPORT_SELECT_TAGS: export
+#+EXPORT_EXCLUDE_TAGS: noexport
+#+LINK_UP:   
+#+LINK_HOME: 
+
+* Actor model
+In this chapter, I will discuss why one should care about concurrency, I will take a look at conventional models of concurrent computations on Java Virtual Machine (JVM) and problems that goes along with them. Then I will talk about fundamental concepts of Actor model followed by more detailed description of Akka - my toolkit of choice for actor systems on JVM platform.
+** The free lunch is over
+"The free lunch is over" is an article written by Herb Sutter that appeared in Dr.Dobb's journal in 2005 (http://www.gotw.ca/publications/concurrency-ddj.htm). He talks about the end of an era, in which software was getting faster (not more performant) simply by the fact that the hardware was getting faster. However, in recent years we have witnessed the decrease of speed by which the clock speed increases and focus of hardware companies on increasing the number of cores (and hardware threads) per CPU. 
+
+What does that mean? It means that in order to utilize to it's maximum potential, we need to learn how to write concurrent software.
+** Problems with convetional models of concurrecny
+Probably the most common concurrency entity used today in programming are threads. Concept of thread comes from operating systems and kind of leaks through into programming langue libraries. Thread allows us to execute concurrently with very little effort. For example all we need to do in Java programming language, is to create instance of class extending java.lang.Thred and implement the public void run() method. Threads are very convinient that way.
+
+However, there are some very important drawbacks of doing concurrency this way.
+*** Threads are expensive
+Because of the way threads work, there is non-trivial ammount of work to be done when threade is required. A stack has to be allocated for every new thread (default size is 512kb) and a number of system calls needs to be made (JVM uses platform specific threads).
+
+What this means, is that one shouldn't create threads dynamically, everytime a concurrent execution is required. What is common aproach instead, is creating a number of threads ahead of time and reusing them (so called worker queues or thread pools). While this is reasonable option, this add a nontrivial complexity to the application and basically means that threads don't scale (we are limited by the number of threads in thread pool).
+*** Thread based concurrency is hard
+Threads can be used to a reasonable level of success in some programs. Especially programs that use threads for processing operations that don't need to communicate between each other nor share same resources(for example web servers, build tools etc). Threads then server a sort of a cheaper processes.
+
+However when dealing with shared resources and shared state, threads become really hard to use. Because threads share memory heap, it is very hard to keep data consistenc and because threads can use all the resources on the heap, deadlocks can occur very easily and it is not a trivial exercise to eliminate all the bugs that can come from such model[fn::http://www.eecs.berkeley.edu/Pubs/TechRpts/2006/EECS-2006-1.pdf].
+** Actor model overview
+Actor model is a model of computation, designed to deal with problems in a highly parallel and fault tolerant fashion. It was first published by Carl Hewitt in 1973 [fn:: Carl Hewitt; Peter Bishop and Richard Steiger (1973). A Universal Modular Actor Formalism for Artificial Intelligence. IJCAI.]. Actor model is widely used in systems where reliability, avalibility and concurrency are important features. Probably the most popular actor implementation today - the Erlang OTP framework, has been used in many software projects and services. Here is a few examples of Erlang applications:
+ - nosql databases: CouchDB, Riak
+ - message queues: RabbitMQ
+ - web servers: YAWS
+And as the number of cores per processors continue to increase, it is reasonable to expect that the demand for tools that promise easier handling of concurrency will increase aswell. 
+** Fundamental concepts
+In actor model, computation is processed using Actors. By Actor we mean an entity which can:
+  - send asynchroneous messages to other actors (sender doesn't wait on reply from the receiver)
+  - receive messages from other actors
+  - create new actors
+  - change it's behaviour dynamically
+
+Every actor has an inbox, into which system queues messages sent to given actor. Actor processes messages one at a time.
+
+Computation is then split into series of operations that are executed by different actors. Results of those operations is then sent around via messages. It is important to note that every actor runs in parallel and there can be many instantions of given actor type. It is therefore important to deisgn system in such a way that actors don't affect each other. 
+
+For example, let's say we want to create a service that writes logging data into a log file. We could easily create a function in every actor that opens a file, appends the log message and closes the file. That would be problematic, though, because multiple actors might want to write at the same time. We could use locks, to make sure that only 1 write is being issued at a time. However, that would be very inefficient, because esentially only 1 actor in the system would be allowed to run, while other actors would wait for the resource to become avalible. What we could do instead, is make another actor (lets call it logger), that would hold the reference to our log file and everytime an actor would write into the log file, it would send the log message into the logger, which would handle the actual write.
+
+This approach might look similar to object oriented programming, where we create a wrapper around a resource to encapsulate the details of the implementation (such as locking). But it's important to remember, that the messages in Actor model are asynchroneous. Which means that actor just sends the message and doesn't wait on response, it just keeps working.
+
+Another important property of actors is that they are very cheap to create. This allows system to generate actors when needed, for example, we could have a web server, that generates a new actor for every incomming connection.
+** Enter Akka
+Every actor model implementation is different from others. For example, just for Scala programming languages there are 4 different implementations as far as i know (Lift actors, Scala Actors from standard library, Scalaz actors and Akka actors). I decided to use Akka actors, because they come as part of a great library and support remoting, which saved me a lot of work. Akka actors also support Erlang-like fault tolerance.
+*** Actors
+In Akka, actor can simply be created by extending Actor trait and implementing a receive method. In this method user maps different kind of messages to functions for processing given message. It's important to note, that Akka actors don't support any kind of scanning of the inbox (some implementations allow for for example checking the length of inbox etc.)
+
+Inside every actor, a self variable is present, containing the important information about state of an actor. For example, one can obtain ActorRef(described below) to sender actor during message processing.
+
+We can then instantiate the actor by calling the factory method actorOf. By calling this method, the user only get instance of class ActorRef. That intance represents the actor in the system, but does not contain the actor. This is so that the state of the actor can never be compromised, because user can never get reference to the actual actor. ActorRef supports methods ! (pronounced bang) and ? (pronounced ask).
+
+The bang method represent the simple 'fire and forget' kind of messaging, while the ask method creates an Future object, which has hooks into which user can insert callback methods, which are called when the Future is completed. This approach eliminates the need of blocking and waiting until the receiving actor reads and responses to our message.
+
+The ActorRef instance is completely thread safe, can be passed around in messages and can even be serialized and sent via network to different jvm and will still refer to the original actor.
+*** Remoting
+Akka also supports remote actors. Thanks to the propertis of ActorRef described above, one can run Akka systems in multiple JVMs and simply by sending ActorRefs around one is able to communicate with remote actors using the standart actor semantics (! and ? methods).
+
+Akka actors can also be registered by string name in so called actor repository, from which one can withdraw them remotely. For example in Specus, there is an actor registered in the server under name that is know to nodes. What that means, is that when a node is booted up, it can get a reference to the registered server actor and being communication.
+*** Fault tolerance
+In order to achieve fault tolerance, a supervision scheme is implemented. Convetional programming methodology deals with error using 'defensive programming'. Basically, programmer is trying to check input data for all possible inconsistencies and only when all test pass data are allowed to be further processed.
+
+On the other hand, Akka accepts the fact that no code is bug-less, so instead of trying to catch all the invalid cases, it encourages programmers to embrace the failure, and focus on recovery from failure. Every time an exception is thrown in Actor, it gets restarded. By that it's meant that the new, fresh instance of Actor is created and injected into system in such a manner that all the ActorRefs to the original actor are valid and point to the newly created actor. Actor can implement lifecycle methods like preRestart and postRestart in order to do save it's state and do anything that needs to be done. The message causing the failure is not processed again, however rest of the mailbox with unprcessed messages is reused for the new actor.
+
+In addiotion to that, Actors can be asigned into tree-like structures where every node can have at most 1 supervisor and can supervise 0 or more actors. When actor is about to fail and is being restarted, a message is sent to the supervisor, so that it can decide what to do. It can decide whether he wants to restart just the failing actor, or all the actors he oversees (it can sometimes be useful).
