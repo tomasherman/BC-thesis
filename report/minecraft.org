@@ -1,0 +1,265 @@
+#+TITLE:     minecraft.org
+#+AUTHOR:    Tomas Herman
+#+EMAIL:     tomasherman@Tomas-Hermans-MacBook.local
+#+DATE:      2012-04-04 Wed
+#+DESCRIPTION:
+#+KEYWORDS:
+#+LANGUAGE:  en
+#+OPTIONS:   H:3 num:t toc:t \n:nil @:t ::t |:t ^:t -:t f:t *:t <:t
+#+OPTIONS:   TeX:t LaTeX:t skip:nil d:nil todo:t pri:nil tags:not-in-toc
+#+INFOJS_OPT: view:nil toc:nil ltoc:t mouse:underline buttons:0 path:http://orgmode.org/org-info.js
+#+EXPORT_SELECT_TAGS: export
+#+EXPORT_EXCLUDE_TAGS: noexport
+#+LINK_UP:   
+#+LINK_HOME: 
+#+XSLT:
+
+* Minecraft
+In this chapter I will provide a brief overview of what Minecraft is,
+some of it's most important aspects and limitations. Hopefully, after
+reading this chapter, reader will agree that Minecraft is quite
+interesting game with a lot of potential.
+
+** What is Minecraft
+*** Overview
+Minecraft is a indie game developed by Markus Presson and Mojang which
+was published in 2011. It's a open world game, in which players are
+placed in a world made of blocks. These blocks can be mined and used
+as a building material. 
+
+Players use these blocks to build various either items or kind of
+structures. For example, there has been successful attempts to build
+USS Enterprise, Taj Mahal, Eiffel Tower and basically anything one
+could imagine.
+
+
+*** Maps
+When a game of Minecraft is started, player may choose to generate a
+new map. This is done using map generator, with random initial seed
+(player may also choose to use specific seed). When a game starts,
+Minecraft server generates a small area around player. As the player
+moves around the map, more and more parts of the map are being
+generated as needed.
+
+Maps in Minecraft are made of blocks. To organize these blocks, maps
+are split into so called /chunks/. These chunks are simply 16 blocks
+wide, 16 blocks deep and 128 blocks high [fn::http://notch.tumblr.com/post/3746989361/terrain-generation-part-1].
+When a client connects to server, server sends the map using these
+chunks.
+
+Maps can be very large. There is a hard limit of 256 block on the
+height of the map. The depth and length of the map, however, is
+has a soft limit of $2^32$ (because of limits of integers in Java) (if
+player moves further then that, the map chunks starts to get
+overwritten). Which means that there can be up to $2^{2 * 32 + 8}$
+blocks per map. Even if every block was represented by 1 byte, it can
+be quite challenge to represent such a large object efficiently.
+
+*** Blocks and Items
+There is a number of different blocks in Minecraft. Among the most
+common ones there is dirt, stone, sand and gravel. There are also
+trees, which can be broken down into wood. There are also rare blocks,
+such as coal, iron, gold and diamond. Each of these blocks has various
+properties and uses.
+
+When mining these, player can use either a bare hands or craft an item
+that would aid him. There is a lot of items player can craft in
+Minecraft, but the basic ones are axe, shovel, hoe and pickaxe. Each
+of these can be made from either wood, stone, gold, iron or diamond
+which determines it's quality. Items are crafted by placing blocks
+into 2x2 or 3x3 matrix into different shapes, which determines the
+item to be crafted. 
+
+Tools described above are useful for increasing efficiency of
+gathering blocks. For example iron pickaxe can crack stone a lot
+faster then wooden pickaxe. Some of the blocks can't even be gathered
+without good enough tool. Diamond block, for instance, require at
+least iron pickaxe. 
+
+There are other items player can craft, though. For example, player
+can create a furnace, which uses coal blocks as fuel and can smelt
+ores into bar as well as cook food from raw meat that can be gathered
+from sheep, cows or pigs. It can also "cook" sand block into glass or
+cobble stone into smooth stone. 
+
+Minecraft also supports alternative forms of transportation with boats
+or mine carts, which can be placed upon a rails in order to move
+faster between locations. Rails make use of so called /Redstone
+energy/, which is described below.
+
+In order to protect himself, player can create and equip armor and
+weapons in either leather, gold, iron or diamond quality. There are 4
+pieces of armor: helmet, chest piece, trousers and boots. As weapons
+there is only sword and bow and arrows. Armor reduces damage taken
+from monsters while weapons increase players damage to monsters and
+fauna of Minecraft worlds.
+*** Monsters & health
+Every player has 10 hearts that symbolize his health. Every heart can
+be either full, half empty or empty. When all hearts are empty, player
+dies and is either re spawned, or in case the player plays in
+/hardcore mode/ the entire world is deleted and all game content is
+lost.
+
+There is also a food counter, which represents how well fed the player
+is. If the bar is full, player automatically regenerates health if he
+has not taken any damage in recent history. This is to prevent health
+regeneration while fighting enemies.
+
+Plenty of opportunities to loose health are implemented in
+Minecraft. Player looses health when dropping from high enough edge,
+while being under water for too long or while standing in fire or
+lava.
+
+The most common cause of health loss, however, are monsters. There is
+a number of monsters in Minecraft:
+**** Zombie
+ Slow melee monster that deals quite a lot of damage, when killed
+ drops meat that can be cooked and eaten.      
+**** Skeleton  
+Shoots arrows, when killed drops arrows or bones.                                                                              
+**** Creeper  
+Very quiet monster which creeps up on player and explodes when in
+proximity of player. Makes sizzling noise before detonation.
+**** Spider
+Melee creature, which only attacks player during night or when
+attacked.
+**** Silverfish
+Melee creature spawning from blocks which look exactly the same as
+stone blocks in randomly generated fortresses and dungeons.
+**** Enderman
+Melee creature that can teleport, but attacks player only if player
+looks at it first. Otherwise it's not hostile.
+
+
+
+Monsters spawn in the places where there is no light available. Light
+can come either from sun, torches, fire or lava. 
+*** Redstone
+Redstone is one of the most interesting features of
+Minecraft. Redstone is a rare ore that can be found deep in the
+ground. When mined, it produces several Redstone crystals.
+
+These crystals can be either used for crafting, or laid on other
+blocks. Player can use these to create kind of a wire made of the
+Redstone crystals. The wiring acts like a carrier of logical
+values. By default, the value transmitted by the wire is 0. It can be
+changed, though. In Minecraft community, this is usually called
+/Redstone energy/ and the state in which logical 0 is transmitted via
+wire is considered as lack of /Redstone energy/.
+
+There is a couple of ways how to send logical 1 via Redstone wire:
+|----------------+--------------------------------------------|
+| Item           | Description                                |
+|----------------+--------------------------------------------|
+| Redstone torch | Sends 1 permanently                        |
+| Button         | Sends 1 as impulse                         |
+| Leaver         | Sends 1 as long as the leaver is triggered |
+| Pressure pad   | Sends 1 as long as something is on the pad |
+|----------------+--------------------------------------------|
+
+There are also items that can 'consume' Redstone wire in order to
+perform action (non exhaustive table):
+|------------+-----------------------------------------------|
+| Item       | Action                                        |
+|------------+-----------------------------------------------|
+| Door       | Open while 1 is transmitted                   |
+| TNT        | Triggers explosion once 1 is transmitted      |
+| Note block | Emits sound once per 0 to 1 value change      |
+| Dispenser  | Dispenses object once per 0 to 1 value change |
+|------------+-----------------------------------------------|
+
+Using these tools, Minecraft users were able to create some very
+impressive structures. There is for example a calculator
+implementation, song playing machines or even games created with
+Redstone infrastructure. 
+
+Other than that, Redstone circuits are often used in /addventure maps/
+for creating puzzles and challenges. Typical example of Redstone usage
+would be asking player to find a button, in order to open doors into
+next part of the map. It can also be used for creating traps, by
+wiring TNT to pressure pads or dispensers with arrows.
+
+*** Nether
+Nether is an alternative map which is available to players via
+portals. Portal is a 5 blocks high and 4 blocks wide frame with 3
+blocks high and 2 blocks wide space inside made of obsidian, which is
+lit using flint and tinder. Obsidian is a block that is created by
+pouring water over lava blocks.
+
+It symbolizes kind of an evil realm with some unique resources, but
+overall is not overly interesting. The portal system, however, is used
+quite often in /adventure maps/.
+*** Goal
+Minecraft is very open ended game, so there is no real ending to the
+game. The only formal ending to the game requires player to find one
+of many randomly generated underground fortresses, build a portal
+inside and go through. There the player will find a dragon, which he
+must slay. However, once that is done and credits have passed, the
+game still can be played. 
+
+More often than not, though, players don't even bother with this quest
+and play the game only for the joy of building interesting
+structures. Game usually ends when player gets bored. Unless player
+plays on hardcore mode, which automatically deletes the world upon
+players first death. 
+*** Creative mode
+Creative mode was added to Minecraft in order to make it easier for
+people to create impressive structures. Those people may not want to
+necessarily deal with all the stuff Minecraft contains, such as
+monsters, inventory management, mining blocks and so on.
+
+In creative mode, player has access to infinite resources from within
+his inventory. He can also destroy any block with 1 hit and is allowed
+to fly. He also takes no damage and spawning of monsters is disabled.
+
+Player may choose to play in creative mode when starting a new
+game. There are extensions, however, that allow player to switch
+creative mode on and off at will.
+*** Adventure maps
+One of the reasons Minecraft got so popular are maps made by players,
+which usually contain a story, quests and riddles for player to go
+through. 
+
+Adventure map is a regular map, which one would download, which
+usually contains additional document which describes the story, rules
+of the map (usually forbids player to destroy any blocks)
+etc. Adventure maps heavily utilize the use of redstone wiring for any
+kind of "scripting" of events.
+** Extensions
+As one might imagine, Minecraft would be a very good platform and
+engine to build on. Unfortunately, there is no api for players to
+build upon. Players still managed to reverse engineered the code,
+though, in order to create plugins and extensions for the game. And
+they really managed to make some amazing plugins. In this part, I will
+mention few of the most interesting extensions.
+*** Tekkit mod
+Tekkit is a collection of multiple extensions, which adds concept of
+the electrical power to the game (among other things). It adds
+randomly generated pools of oil into the maps, which can be gathered,
+processed to fuel and used in electrical engines to power
+machines. There is a lot of machines that consume electricity, but the
+most interesting one is a quarry, which automatically mines selected
+area.
+
+
+There are other ways to gather electricity, though. There are for
+example nuclear reactors, which players can build. They need to be
+cooled down, however, or they will explode and contaminate area with
+radioactivity.
+*** Computercraft
+Another very interesting extension is Computercraft. It adds
+programmable robots into the game. Robots are programmed via in game
+terminal using embedded LUA [fn::www.lua.org] programming language
+(added by the extension). 
+
+There are for example mining probes, which can be programmed to search
+for given materials, mine only those and return them to the owner. 
+It can also be used for password protecting doors. It can be even used
+to implement an text-based RPG (in game terminals are text-only and
+computer craft doesn't include any tools for creating graphical UI).
+*** Other extensions
+There is a great number of extensions. Just quickly mention a few
+others, there is an extension that adds mini map for players. There is
+an extension that adds gps-like navigation and ability to create
+points of interest. There are extensions that add new items, enemies
+or blocks and so on. 

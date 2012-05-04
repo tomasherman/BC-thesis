@@ -1,0 +1,41 @@
+#+TITLE:     intro.org
+#+AUTHOR:    Tomas Herman
+#+EMAIL:     tomasherman@Tomas-Hermans-MacBook.local
+#+DATE:      2012-04-17 Tue
+#+DESCRIPTION:
+#+KEYWORDS:
+#+LANGUAGE:  en
+#+OPTIONS:   H:3 num:t toc:t \n:nil @:t ::t |:t ^:t -:t f:t *:t <:t
+#+OPTIONS:   TeX:t LaTeX:t skip:nil d:nil todo:t pri:nil tags:not-in-toc
+#+INFOJS_OPT: view:nil toc:nil ltoc:t mouse:underline buttons:0 path:http://orgmode.org/org-info.js
+#+EXPORT_SELECT_TAGS: export
+#+EXPORT_EXCLUDE_TAGS: noexport
+#+LINK_UP:   
+#+LINK_HOME: 
+#+XSLT:
+
+* Thanks
+I would like to thank to the following people and communities for help with my thesis:
+- Mr. Miroslav Uller for valuable comments and guidance
+- Everyone from Minecraft Coallition Wiki
+  [fn::http://www.wiki.vg/Main_Page] for all their hard work on
+  writing great documentation of Minecarft protocol
+- Everyone from #mcdevs IRC channel for help with debugging and
+  understanding of Minecraft protocol
+- Mr. Victor Klang and everyone from Typesafe for creating amazing Akka
+  framework and for all the help they provided to me via mailing list
+
+* Introduction
+It seems like more and more these days, people rely on remote services
+and application which store data or even entire business logic on a
+server, while providing only a thin client for the user to
+interact with. That puts a lot of responsibility on the creators of such
+applications to create a quality service with high availability that
+can be trusted to work correctly.
+
+In my thesis I try to capture my hands on experience with
+writing one such server using very modern techniques and tools in
+order to create architecture, that is easy to reason about, maintain
+and extend. I will be implementing a subset of business logic for
+Minecraft game, which should be demanding enough to prove the points
+I'm making further in the paper. 

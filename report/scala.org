@@ -1,0 +1,119 @@
+#+TITLE:     scala.org
+#+AUTHOR:    arg
+#+EMAIL:     arg@arg-ubuntu
+#+DATE:      2012-03-03 Sat
+#+DESCRIPTION: 
+#+KEYWORDS: 
+#+LANGUAGE:  en
+#+OPTIONS:   H:3 num:t toc:t \n:nil @:t ::t |:t ^:t -:t f:t *:t <:t
+#+OPTIONS:   TeX:t LaTeX:nil skip:nil d:nil todo:t pri:nil tags:not-in-toc
+#+INFOJS_OPT: view:nil toc:nil ltoc:t mouse:underline buttons:0 path:http://orgmode.org/org-info.js
+#+EXPORT_SELECT_TAGS: export
+#+EXPORT_EXCLUDE_TAGS: noexport
+#+LINK_UP:   
+#+LINK_HOME: 
+
+* Scala
+In this chapter, I will try to explain why i chose to use Scala language for implementing Specus. Discuss strenghts of Scala compared to other alternatives and provide a quick overview of the most useful features which I used in Specus. In the last part of this chapter, I will discuss some of the weaknesses of of Scala and describe how i used the features menioned in the rest of this chapter.
+** Why Scala?
+There were several reasons which lead me to choose Scala for Specus implementation. First of all, I wanted to make this project a learning experience. And ever since i took Haskell/Lisp class, I was interested in functional programing. I think that functional programming will become more popular and more desired skill to have in years to come, due to the increasing demand on correct and concurrent software. I am also quite experienced with Java language. Scala provides very good support for functional programming while still preserving many concepts from object oriented programming. So it seemd like a natural choice to choose Scala.
+** JVM
+Scala source is compiled into JVM bytecode. That means that any scala projects automatically benefits from all the effort people have put into optimizing JVM aswell as features that speed up computations during runtime (JIT compilation, code inlining etc). JVM programs are, obviously, platform independent (as long as Java Runtime Environment is avalible for given platform), so one gets platform independence for free. 
+
+There also exist a number of great and mature tools and libraries written and compiled for JVM platofrm, which can be very easily used while working with Scala. For example one could use a Proguard[fn::http://proguard.sourceforge.net/] program to minimize the jar produced by scala compiler by removing the unused classes from libraries and compiled code.
+** Qucik scala overview
+Scala was designed by Martin Odersky and his team at ÉCOLE POLYTECHNIQUE FÉDÉRALE DE LAUSANNE [fn::http://www.epfl.ch/index.en.html].The name stands for Scalable language, which describes the language rather well. Please note, that /Scalable language/ is not meant in a sense of horizontal/vertical scalability (Scala is as good as any language in that sense of a the word), but authors rather meant it in a sense that the language features scale with the experiecne of user [fn::http://www.scala-lang.org/node/8610]. In Scala, it is relatively easy to design libraries that appear to be language features. For example the new /try with resource/ statement added in JDK7 [fn::http://docs.oracle.com/javase/7/docs/technotes/guides/language/try-with-resources.html] could be implemented in scala on library level very easily. 
+
+Scala is a rather unique mix of object oriented concepts and functional programming concepts with very powerful standard library, which contains, among other things:
+- rich collection framework with both mutable and persistent implementations
+- parallel collections (collections, whose methods are processed in multiple threads)
+- parser combinators (library for simple writing of powerful parsers)
+- wrappers for around many of JDK featuresss for more Scala-like usage
+
+** OO features
+Much like in Java, code in Scala is organized using constructs from object oriented programing. In Scala, there are 3 basic entities: Classes, Objects and Traits. Following is the brief overview of each of the entities. 
+*** Traits
+In Scala, trait are kind of an mix between java interfaces and abstract classes. Traits can define method, which can either be left abstract (trait only defines the header of the method, implementation is left to the user) or can contain implementation aswell. Traits can not only define methods, but fields aswell.
+
+Traits can extend 0 or more traits. Trait can also declare it's dependency on other entity. For example, we can have a trait =ChatSocket= with method =pullChatData()= which returns array of bytes and we want to create trait =ChatFormatter= with method =printableChatData()= functionality which uses =pullChatData()= and creates formatted string. That means we need to make sure that both of these traits are mixed into same object. We could define the traits like so:
+
+=trait ChatSocket { def pullChatData(): Array[Byte] = ... }=
+
+=trait ChatFormatter { self: ChatSocket => printableChatData() = ... }=
+
+Now whenever we create object which extends =ChatFormatter=, we need to also extend =ChatSocket= or the code will not compile.
+
+*** Objects
+In Scala there is entity called objects, which is basically a class that is guaranteed to be only presented once in a JVM. It's java equivalent would be class that is created using Singleton pattern. 
+
+Objects can extend traits, but nothing can extend objects. Objects don't have constructors. Every method on object is "static", which is why objects are commonly used as what is called "companion objects" to classes. Companion objects usually contain factory methods aswell as other useful functions for given class.
+
+*** Classes
+Classes are very similar to classes from languages like Java. They have constructors, can extend a class and implement 0 or more traits.
+** Functional and exotic features
+Unlike in Java, scala supports a vast set of features usually avalible in functional languages, aswell as other useful concepts. Here I will briefly introduce some of the interesting concepts and at the end of the chapter I will try to show example of an interesting application of these concepts.
+*** Pattern matching
+One of the features I liked most about Haskell was pattern matching. One can think of pattern matching as about more powerful version of switch/case statements. 
+
+User defines a sequence of patterns and callbacks that is called when pattern matches. Patterns are tried in order in which they were defined. 
+
+Scala implements this feature by using entities called extractors. Extractors are functions that are applied to input and return either =Some(value)= or =None= named =unapply=. If the extractor return =Some=, it is considered to match the input. Otherwise the next extractor is tried. 
+*** Vars and Vals
+Scala has two types of fields: vals nad vars. Vals are fields that are guaranteed to be assigned only once and never changed. Vars on the other hand can be changed just like a regular Java variable. It is considered good practice to always use vals, unless it's necesarry to use var. 
+
+*** First class functions
+In Scala, functions are first class citizens. That means, in Scala one can treat functions like any other datatype. Function can be stored in variable, it can be passed around and created on demand. Functions can return new functions and so on. 
+
+Scala compiler creates a java class for every first class function (methods of objects are created as regular java methods of objects), so basically storing and passing function becomes simply storing and passing of a reference to the created object. This created class has an =apply([argument-list])= method generated, which represents the function ivocation. In scala there is a shortcut to invoking =apply([argument-list])= methods by simply calling =([argument-list])= on the object. For example =a([argument-list])= is translated to =a.apply([argument-list])=. This means that it's really easy to even create objects/classes that can be used as functions, by simply defining =apply([argument-list])= method. 
+*** Case classes
+Case classes are quite interesting feature of Scala. They are defined using =case= keyword like so =case class X([constructor-arguments])=. For example, lets say we want to create a class representing a point in 3D space. Case class could look like so: =case class Point3d(x: Int, y: Int, z:Int)=. 
+
+For such class, Scala compiler will generate a few very useful methods. First of all, a reasonable =toString=, =equals= and =hashCode= methods are generated, which use constructor parameters to compare equality and to generate hash code. A companion objects with factory method and extractor methods are generated for given case class aswell. Compiler also generates methods that allow user to access the fields in order they were declared in constructor. This might not seem like a very interesting feature but it is used to great success in specus and is described below.
+
+It's important to note that constructor parameters of case classes can be accessed (as fields) and are immutable.
+*** Collection api
+Scala has very impressive set of collections. It has common datastructures - list, vector, stack, queue, map, set and possibly even more. All of these are avalible in multiple versions. When not specified otherwise, datastructures are avalible as so called "persistent datastructures". Is a datastructure, that when altered creates what seems like a new instance of datastructe with altered content. Original instance remains unchanged. Operations on persistent datastructures use clever tricks and structure sharing in order to achieve same complexities as their mutable versions.
+
+Scala also have mutable versions of datastructures. Those are the equivalents of datastructures that can be found in most languages.
+
+Speciality of Scala standard library are paralell datastrucutes. Those are persistent datastructures, but their speciality is that methods defined on them like =filter=, =map= etc are executed from multiple threads.
+** Weaknesses
+As with most tools, there are tradeoffs when using Scala. In this part of the paper I will talk about some of the negatives I encountered when using Scala.
+ 
+First of all, Scala is quite a new technology, so the tool support is not as advanced as for example for Java, but it is getting better. I used IntelliJ Idea IDE with Scala plugin when developing Specus and it was reasonably plesant experience. It supports basic refactoring aswell as error highlighting. However, it sometimes reports error in a code that is prefectly compilable.
+
+The more important issue with Scala is the naming of all the generated code by scala compier. It can sometimes be difficult to figure out when and why exceptions are being thrown, especially because it's common to use so called "one liners" quite often when dealing with collections and so on, which condense quite a lot of code into 1 line of code. Every time we use anonymous function, scala compiler generates a class representing that function and gives it some generic name. It uses the classpath to package in which the function is defined followed by =$= followed by some arbirary text to guarantee uniqueness of the name. For example for function in val =f= in object =o= defined like so:
+
+=object o { val f = () => throw new Exception() }=
+
+and invoked: 
+
+=o.f()=
+
+will return following stacktrace:
+
+=java.lang.Exception=
+=at o$$anonfun$1.apply(<console>:7)=
+=at o$$anonfun$1.apply(<console>:7)=
+
+
+One can see how the stack traces could get very unreadable very fast. Luckily, after a while I didn't find this to be a big deal but it was definitely a challange early on.
+
+** Example usage of case classes and first class functions
+In this part of the paper I will talk about what I thought was quite interesting usage of the above described features. First I will explain what I was trying to build and why and then I will go into details of implementation.
+
+Minecraft clinets communicate with server using TCP connection. There are about 70 different types of "packets" (by packets i mean logical packets, as TCP is stream service so there are no any real packets visible to user) that are being sent over the wire. There are many different ways to implement such mechanism, but the way I chose to do it is to create a case class for every different kind of packet which would represent the fields of packet and a codec, which knows how to take the instance of given packet and encode it into a byte array which can be sent via tcp and read by client. It also knows how to read a byte array and parse it into the given packet case class.
+
+Most naive, but in some languages the only solution would be simply creating codecs by hand and copy-pasting the encoding code in. One might think that it would be possible to use java reflection api [fn::http://docs.oracle.com/javase/1.4.2/docs/api/java/lang/reflect/package-summary.html] to figure out what the type of value are the fields of given packet and parse/encode them accordingly. 
+
+And that does work fine for parsing - java reflection gives us the tools to obtain constructor of given class. From that constructor, we can figure out all it's parameters aswell as their types (we can get class object of the parameters) and it gives us a method to programatically invoke the constructor with array of =Object= values that are used as contructor paramters. Thus providing us with enough power to create generic parser that would figure out how to parse packet just from it's constructor.
+
+The real problem is with encoding the packet. While we can get all declared fields of given class, those fields are given in no particular order [fn::http://docs.oracle.com/javase/1.3/docs/api/java/lang/Class.html]. We could ofcourse use tricks like annotations to establish the order of fields, but that would introduce more boilerplate and in the end would make our code more confusing.
+
+Luckily, like described above, case classes provide api for users to access constructor fields in order in which they were defined.
+
+So now we have a way to get types of constructor paramters of given class and we know how to access those fields in order they were defined in. All we need now is some kind of mapping between type of class and a function that would be able to parse and encode that type. But that should be easy, because as described above, functions are first class entities. We can simply create =Map= from =Class= object to =(_ <: Any, ChannelBuffer) => Unit= for encoding (function that takes anything and channel buffer, into which we encode the packet and returns nothing) and =Map= from =Class= to =(ChannelBuffer) => Any= (function that takes channel buffer and returns anything) for decoding.
+
+Above solution has a problem, still. It operates with Any, which basically means we loose any type safety, For example we could put into our map mapping from class of Int to function that returns String. We can't make the type constraints on map any stronger, because we couldn't add all the datatypes into it, obviously. What we can do is create an api which would use scala generics and made sure that functions have proper headers and add it to our maps for us.
+
+Basically, using approach described above, I was able to save myself writting about 60 classes full of boilerplate code, in which it would be very easy to make errors. I still had to implement some codecs by hand, as minecraft api is not designed very well, though.
