@@ -22,15 +22,14 @@ I would like to thank to the following people and communities for help with my t
   writing great documentation of Minecarft protocol
 - Everyone from #mcdevs IRC channel for help with debugging and
   understanding of Minecraft protocol
-- Mr. Victor Klang and everyone from Typesafe for creating amazing Akka
+- Mr. Victor Klang and everyone from Typesafe for creating Akka
   framework and for all the help they provided to me via mailing list
-
 * Introduction
 It seems like more and more these days, people rely on remote services
 and application which store data or even entire business logic on a
 server, while providing only a thin client for the user to
 interact with. That puts a lot of responsibility on the creators of such
-applications to create a quality service with high availability that
+applications to create a quality, highly available service, that
 can be trusted to work correctly.
 
 In my thesis I try to capture my hands on experience with
@@ -41,8 +40,8 @@ Minecraft game, which should be demanding enough to prove the points
 I'm making further in the paper.
 
 * Minecraft
-In this chapter I will provide a brief overview of what Minecraft is,
-some of it's most important aspects and limitations. Hopefully, after
+In this chapter I will provide a brief overview of what Minecraft is
+and some of it's most important concepts. Hopefully, after
 reading this chapter, reader will agree that Minecraft is quite
 interesting game with a lot of potential.
 
@@ -53,7 +52,7 @@ was published in 2011. It's a open world game, in which players are
 placed in a world made of blocks. These blocks can be mined and used
 as a building material.
 
-Players use these blocks to build various either items or kind of
+Players use these blocks to build various items or 
 structures. For example, there has been successful attempts to build
 USS Enterprise, Taj Mahal, Eiffel Tower and basically anything one
 could imagine.
@@ -64,8 +63,8 @@ When a game of Minecraft is started, player may choose to generate a
 new map. This is done using map generator, with random initial seed
 (player may also choose to use specific seed). When a game starts,
 Minecraft server generates a small area around player. As the player
-moves around the map, more and more parts of the map are being
-generated as needed.
+moves around the map, more and more parts of the map are 
+generated when needed.
 
 Maps in Minecraft are made of blocks. To organize these blocks, maps
 are split into so called /chunks/. These chunks are simply 16 blocks
@@ -74,12 +73,12 @@ When a client connects to server, server sends the map using these
 chunks.
 
 Maps can be very large. There is a hard limit of 256 block on the
-height of the map. The depth and length of the map, however, is
-has a soft limit of $2^32$ (because of limits of integers in Java) (if
+height of the map. The depth and length of the map, however, 
+has a soft limit of $2^{32}$ (because of limits of integers in Java) (if
 player moves further then that, the map chunks starts to get
 overwritten). Which means that there can be up to $2^{2 * 32 + 8}$
 blocks per map. Even if every block was represented by 1 byte, it can
-be quite challenge to represent such a large object efficiently.
+be quite challenge to represent such large object efficiently.
 
 *** Blocks and Items
 There is a number of different blocks in Minecraft. Among the most
@@ -121,7 +120,7 @@ from monsters while weapons increase players damage to monsters and
 fauna of Minecraft worlds.
 *** Monsters & health
 Every player has 10 hearts that symbolize his health. Every heart can
-be either full, half empty or empty. When all hearts are empty, player
+be either full, half empty(also known as half full) or empty. When all hearts are empty, player
 dies and is either re spawned, or in case the player plays in
 /hardcore mode/ the entire world is deleted and all game content is
 lost.
@@ -136,8 +135,10 @@ Minecraft. Player looses health when dropping from high enough edge,
 while being under water for too long or while standing in fire or
 lava.
 
-The most common cause of health loss, however, are monsters. There is
-a number of monsters in Minecraft:
+The most common cause of health loss, however, are monsters. Monsters
+spawn in the places where there is no light available. Light can come
+either from sun, torches, fire or lava. There is a number of monsters
+in Minecraft: 
 **** Zombie
  Slow melee monster that deals quite a lot of damage, when killed
  drops meat that can be cooked and eaten.
@@ -158,8 +159,6 @@ looks at it first. Otherwise it's not hostile.
 
 
 
-Monsters spawn in the places where there is no light available. Light
-can come either from sun, torches, fire or lava.
 *** Redstone
 Redstone is one of the most interesting features of
 Minecraft. Redstone is a rare ore that can be found deep in the
@@ -203,7 +202,7 @@ Other than that, Redstone circuits are often used in /adventure maps/
 for creating puzzles and challenges. Typical example of Redstone usage
 would be asking player to find a button, in order to open doors into
 next part of the map. It can also be used for creating traps, by
-wiring TNT to pressure pads or dispensers with arrows.
+wiring TNT or dispensers with arrows to pressure pads.
 
 *** Nether
 Nether is an alternative map which is available to players via
@@ -246,14 +245,14 @@ One of the reasons Minecraft got so popular are maps made by players,
 which usually contain a story, quests and riddles for player to go
 through.
 
-Adventure map is a regular map, which one would download, which
+Adventure map is a regular map, which
 usually contains additional document which describes the story, rules
 of the map (usually forbids player to destroy any blocks)
-etc. Adventure maps heavily utilize the use of redstone wiring for any
-kind of "scripting" of events.
+etc. Adventure maps heavily utilize the use of redstone wiring for
+creating "scripted" events.
 ** Extensions
 As one might imagine, Minecraft would be a very good platform and
-engine to build on. Unfortunately, there is no api for players to
+engine to build on. Unfortunately, there is no API for players to
 build upon. Players still managed to reverse engineered the code,
 though, in order to create plugins and extensions for the game. And
 they really managed to make some amazing plugins. In this part, I will
@@ -282,10 +281,10 @@ There are for example mining probes, which can be programmed to search
 for given materials, mine only those and return them to the owner.
 It can also be used for password protecting doors. It can be even used
 to implement an text-based RPG (in game terminals are text-only and
-computer craft doesn't include any tools for creating graphical UI).
+Computercraft doesn't include any tools for creating graphical UI).
 *** Other extensions
-There is a great number of extensions. Just quickly mention a few
-others, there is an extension that adds mini map for players. There is
+There is a great number of extensions. Just to quickly mention a few
+others, there is an extension that adds mini map for players. There is 
 an extension that adds gps-like navigation and ability to create
 points of interest. There are extensions that add new items, enemies
 or blocks and so on.
@@ -293,7 +292,7 @@ or blocks and so on.
 * Goals
 In this part of the paper I will talk about goals of the project I
 will be working on. In the first part, I will reason about why I chose
-the goals the way I chose them while in the second part I will provide
+the goals the way I chose them, while in the second part I will provide
 a brief summary of the goals in form of a list.
 
 ** Reasoning
@@ -310,8 +309,9 @@ the future.
 *** Server related goals
 The main focus of this project is the server infrastructure, which I
 hoped would be very independent of Minecraft itself. If I would have
-had done my work correctly, Specus server could be used for any other
-game or project easily.
+had done my work correctly, Specus (that is how i named the project,
+it means 'cave' in Latin, which i thought was appropriate) server
+could be used for any other game or project easily.
 
 **** Simplicity
 I wanted the server infrastructure to be very simple to use and simple
@@ -321,7 +321,8 @@ right. In order to achieve that, I used Scala programming language,
 which is said to have great support for concurrent programming.
 
 I also decided to use Actor pattern, which seemed very interesting and
-very natural to use for when dealing with concurrency.
+very natural to use when dealing with concurrency.
+
 
 I also wanted to abstract away all the IO operations and the lower
 level mechanics of the server. I didn't want to deal with no buffers,
@@ -337,7 +338,7 @@ implement entire Minecraft business logic as extension (extensions are
 called Plugins later in the text and in the code).
 
 I wanted plugin programmers to be able to express dependencies on
-other plugin, as it's very common use case that a plugin wants to
+other plugins, as it's very common case that a plugin wants to
 extend or cooperate with functionality provided by other plugins.
 **** Distributivity
 I wanted my server to be able to spread the workload into multiple
@@ -367,17 +368,14 @@ updates when player makes a change and persistent player position
 (position of a player is persisted between sessions).
 
 While that is not very impressive set of features, it should provide
-and test all the important features of the server architecture, as it
-needs to make a lot of database queries and updates.
+and test all the important features of the server architecture.
 
 ** List summary of goals
 Following is the brief summary of the goals mentioned above in form of
 a list:
-
 - server architecture requirements
   - implemented in Scala
-  - extensive usage of Actor mode
-  - database support for storing state
+  - extensive usage of Actor model
   - extensible via plugins
     - must be able to express dependencies on given plugin and it's
       version
@@ -435,10 +433,10 @@ POLYTECHNIQUE FÉDÉRALE DE LAUSANNE
 [fn::http://www.epfl.ch/index.en.html]. The name stands for Scalable
 language, which describes the language rather well. Please note, that
 /Scalable language/ is not meant in a sense of horizontal/vertical
-Scalability (Scala is as good as any language in that sense of a the
+scalability (Scala is as good as any language in that sense of a the
 word), but authors rather meant it in a sense that the language
 features scale with the experience of user
-[fn::http://www.Scala-lang.org/node/8610]. In Scala, it is relatively
+[fn::http://www.scala-lang.org/node/8610] . In Scala, it is relatively
 easy to design libraries that appear to be language features. For
 example the new /try with resource/ statement added in JDK7
  [fn::http://docs.oracle.com/Javase/7/docs/technotes/guides/language/try-with-resources.html]
@@ -451,7 +449,7 @@ which contains, among other things:
 - rich collection framework with both mutable and persistent implementations
 - parallel collections (collections, whose methods are processed in multiple threads)
 - parser combinators (library for simple writing of powerful parsers)
-- wrappers for around many of JDK features for more Scala-like usage
+- wrappers around many of JDK features for more Scala-like usage
 
 ** Object oriented features
 Much like in Java, code in Scala is organized using constructs from
@@ -464,7 +462,8 @@ In Scala, trait are kind of an mix between Java interfaces and
  abstract (trait only defines the
  header of the method, implementation is left to the user) or can
  contain implementation as well. Traits can not only define methods,
- but fields as well.
+ but fields as well, although it's recommended to use methods, which
+ can be later overwritten by vals.
 
 
 Traits can extend 0 or more traits. Trait can also declare it's
@@ -521,8 +520,8 @@ defined.
 
 
 Scala implements this feature by using entities called
-extractors. Extractors are functions that are applied to input and
-return either =Some(value)= or =None= named =unapply=. If the
+extractors. Extractors are functions named =unapply=, that are applied to input and
+return either =Some(value)= or =None=. If the
 extractor return =Some=, it is considered to match the
 input. Otherwise the next extractor is tried.
 
@@ -546,7 +545,7 @@ Scala compiler creates a Java class for every first class function
 so basically storing and passing function becomes simply storing and
 passing of a reference to the created object. This created class has
 an =apply([argument-list])= method generated, which represents the
-function invocation. In Scala there is a shortcut to invoking
+function invocation. In Scala there is a syntactic sugar for invoking
 =apply([argument-list])= methods by simply calling =([argument-list])=
 on the object. For example =a([argument-list])= is translated to
 =a.apply([argument-list])=. This means that it's really easy to even
@@ -555,7 +554,7 @@ defining =apply([argument-list])= method.
 
 *** Case classes
 Case classes are quite interesting feature of Scala. They are defined
-using =case= keyword like so =case class
+using =case= keyword, like so: =case class
 X([constructor-arguments])=. For example, lets say we want to create a
 class representing a point in 3D space. Case class could look like so:
 =case class Point3d(x: Int, y: Int, z:Int)=.
@@ -569,7 +568,7 @@ factory method and extractor methods are generated for given case
 class as well. Compiler also generates methods that allow user to
 access the fields in order they were declared in constructor. This
 might not seem like a very interesting feature but it is used to great
-success in specus and is described below.
+success in Specus and is described below.
 
 
 It's important to note that constructor parameters of case classes can
@@ -592,8 +591,8 @@ Scala also have mutable versions of data structures. Those are the
 equivalents of data structures that can be found in most languages.
 
 
-Very interesting feature of Scala standard library are paralel data structures. Those
-are persistent data structures, but their speciality is that methods
+Very interesting feature of Scala standard library are parallel data structures. Those
+are persistent data structures, but the interesting thing about them is that methods
 defined on them like =filter=, =map= etc are executed using multiple
 threads.
 
@@ -607,24 +606,23 @@ when using Scala.
 First of all, Scala is quite a new technology, so the tool support is
 not as advanced as for example for Java, but it is getting better. I
 used IntelliJ Idea IDE with Scala plugin when developing Specus and it
-was reasonably pleasant experience. It supports basic refactoring
-as well as error highlighting. However, it sometimes reports error in a
-code that is perfectly correct.
+was reasonably pleasant experience. It supports basic refactoring,
+code completion as well as error highlighting. However, it sometimes
+reports error in a code that is perfectly correct. 
 
 
 The more important issue with Scala is the naming of all the generated
 code by Scala compiler. It can sometimes be difficult to figure out
 when and why exceptions are being thrown, especially because it's
 common to use so called "one liners" quite often when dealing with
-collections and so on, which condense quite a lot of code into 1 line
-of code. Every time we use anonymous function, Scala compiler
-generates a class representing that function and gives it some generic
-name. It uses the classpath to package in which the function is
-defined followed by =$= followed by some arbitrary text to guarantee
-uniqueness of the name. For example for function in val =f= in object
-=o= defined like so:
-
-
+collections and so on, which condense quite a lot of logic into 1 line
+of code and are usually littered with anonymous functions. Every time
+we use anonymous function, Scala compiler generates a class
+representing that function and gives it some generic name. It uses the
+classpath to package in which the function is defined followed by =$=
+followed by some arbitrary text to guarantee uniqueness of the
+name. For example for function in val =f= in object =o= defined like
+so: 
 =object o { val f = () => throw new Exception() }=
 
 and invoked:
@@ -645,14 +643,14 @@ it was definitely a challenge early on.
 
 ** Example usage of case classes and first class functions
 In this part of the paper I will talk about what I thought was quite
-interesting usage of the above described features. First I will
+interesting usage of the features described above. First I will
 explain what I was trying to build and why and then I will go into
 details of implementation.
 
 
 Minecraft clients communicate with server using TCP connection. There
 are about 70 different types of "packets" (by packets i mean logical
-packets, as TCP is stream service so there are no any real packets
+packets, as TCP is stream service so there are no real packets
 visible to user) that are being sent over the wire. There are many
 different ways to implement such mechanism, but the way I chose to do
 it is to create a case class for every different kind of packet which
@@ -707,19 +705,24 @@ decoding.
 
 
 Above solution has a problem, still. It operates with Any, which
-basically means we loose any type safety, For example we could put
+basically means we loose all type safety, For example we could put
 into our map mapping from class of Int to function that returns
 String. We can't make the type constraints on map any stronger,
 because we couldn't add all the data types into it, obviously. What we
 can do is create an API which would use Scala generics and made sure
 that functions have proper headers and add it to our maps for us.
 
+=def addType[A](encode:(A)=>ChannelBuffer,decode:(ChannelBuffer)=>A)=
+
+The method signature above symbolizes how such API could look
+like. The method takes two functions, one called =encode= which takes
+argument of type =A= and returns =ChannelBuffer= and function called
+decode, which takes =ChannelBuffer= and returns type =A=.
 
 Basically, using approach described above, I was able to save myself
 writing about 60 classes full of boilerplate code, in which it would
 be very easy to make errors. I still had to implement some codecs by
 hand, as Minecraft API is not designed very well, though.
-
 
 * Actor model
 In this chapter, I will discuss why one should care about concurrency,
@@ -745,7 +748,7 @@ the chips.
 That means, that in order to harness the power of this new hardware,
 we need to approach the craft of writing software in a different
 way. We need to focus on concurrency and we need to focus on creating
-tools that will help writing concurrent software easier.
+tools that will make writing concurrent software easier.
 
 ** Problems with conventional models of concurrency
 Probably the most common concurrency entity used today in programming
@@ -753,7 +756,7 @@ are threads. Concept of thread comes from operating systems and kind
 of leaks through into programming language libraries. Thread allows us
 to execute concurrently with very little (programming) effort. For
 example all we need to do in Java programming language, is to create
-instance of class extending -Java.lang.Thread- and implement the
+instance of class extending =java.lang.Thread= and implement the
 -public void run()- method. Threads are very convenient that way.
 
 
@@ -795,17 +798,19 @@ in a highly concurrent, asynchronous and fault tolerant fashion. It
 was first published by Carl Hewitt in 1973 [fn::Carl Hewitt; Peter
 Bishop and Richard Steiger (1973). A Universal Modular Actor Formalism
 for Artificial Intelligence. IJCAI.]. Actor model is widely used in
-systems where reliability, availability, Scalability and concurrency
-are important features. Probably the most popular actor implementation
+systems where reliability, availability, scalability and concurrency
+are important features.And as the number of cores per processors
+continue to increase, it is reasonable to expect that the demand for
+tools that promise easier handling of concurrency will increase as
+well.  
+
+Probably the most popular actor implementation
 today - the Erlang OTP framework, has been used in many software
 projects and services. Here is a few examples of Erlang applications:
 
  - nosql databases: CouchDB, Riak
  - message queues: RabbitMQ
  - web servers: YAWS
-And as the number of cores per processors continue to increase, it is
-reasonable to expect that the demand for tools that promise easier
-handling of concurrency will increase as well.
 
 ** Fundamental concepts
 In actor model, computation is processed using Actors. By Actor we mean an entity which can:
@@ -888,38 +893,38 @@ processing.
 
 
 We can then instantiate the actor by calling the factory method
-actorOf. By calling this method, the user only get instance of class
-ActorRef. That instance represents the actor in the system, but does
+=actorOf=. By calling this method, the user only get instance of class
+=ActorRef=. That instance represents the actor in the system, but does
 not contain the actor. This is so that the state of the actor can
 never be compromised, because user can never get reference to the
-actual actor. ActorRef supports methods ! (pronounced bang) and ?
+actual actor. =ActorRef= supports methods ! (pronounced bang) and ?
 (pronounced ask).
 
 
 The bang method represent a simple 'fire and forget' kind of
-messaging, while the ask method creates an Future object, which has
+messaging, while the ask method creates a =Future= object, which has
 hooks into which user can insert callback methods, which are called
-when the Future is completed. This approach eliminates the need of
+when the =Future= is completed. This approach eliminates the need of
 blocking and waiting until the receiving actor reads and responses to
 our message.
 
 
-The ActorRef instance is completely thread safe, can be passed around
+The =ActorRef= instance is completely thread safe, can be passed around
 in messages and can even be serialized and sent via network to
 different JVM and will still refer to the original actor.
 
 *** Remote access
-Akka also supports remote actors. Thanks to the properties of ActorRef
+Akka also supports remote actors. Thanks to the properties of =ActorRef=
 described above, one can run Akka systems in multiple JVMs and simply
-by sending ActorRefs around one is able to communicate with remote
+by sending =ActorRef= around one is able to communicate with remote
 actors using the standard actor semantics (! and ? methods).
 
 
-Akka actors can also be registered by string name in so called actor
-repository, from which one can withdraw them remotely. For example in
+Akka actors can also be registered by string name in so called "actor
+repository", from which one can withdraw them remotely. For example in
 Specus, there is an actor registered in the server under name that is
 know to nodes. What that means, is that when a node is booted up, it
-can get a reference to the registered server actor and being
+can get a reference to the registered server actor and begin
 communication.
 
 *** Fault tolerance
@@ -963,8 +968,8 @@ implementation of Specus.
 ** Minecraft
 Minecraft uses client - server architecture for multiplayer support. 1
 client can be connected to only 1 server. Minecraft clients
-communicate with server using TCP protocol. Data sent are formatted
-using logical packets. There is a number of different packet
+communicate with server using TCP protocol. Data are formatted
+into logical packets. There is a number of different packet
 formats. Every packet is prefixed with unsigned byte which indicates
 the type of packet, which ultimately determines how the rest of
 stream should be parsed.
@@ -1011,7 +1016,7 @@ metadata are:
 |    0x010 | int                        |
 |    0x011 | float                      |
 |    0x100 | string                     |
-|    0x101 | short, byte, short triplet |
+|    0x101 | short, byte, short         |
 |    0x110 | int, int, int              |
 |----------+----------------------------|
 
@@ -1055,11 +1060,11 @@ server shutdown, whichever happens to happen first.
 
 
 When TCP data arrive on the server, first byte is read. It is then
-checked, whether any codec is for given byte is registered (remember,
+checked, whether any codec is registered for given byte (remember,
 every packet type is prefixed with id byte). If a codec is found, rest
 of the received data is given to that codec for parsing and new
 instance of packet message is received by chosen codec. That message
-is then sent, along with id of client to one of the connected nodes.
+is then sent, along with id of a client, to one of the connected nodes.
 
 
 When one of the nodes wants to write a packet message to client, it
@@ -1083,7 +1088,7 @@ set of available nodes and starts sending messages to it.
 
 
 In nodes, message processing should be done either in stateless
-fashion, or the state should be persistent in some sort of database as
+fashion, or the state should be persisted in some sort of database as
 the messages are sent randomly to the nodes. In order to do that, I
 use Redis database (which is described below).
 
@@ -1092,7 +1097,7 @@ Node plugins can contain so called =processors=. Processor is a class
 that can consume a packet and somehow process it. Each packet can be
 processed by multiple processors and they are not processed in any
 particular order. Processors also need to be able to provide a
-sequence of all the packets they are able to process so that the
+sequence of all the packets they are able to process so that
 packets are only sent to the processors that actually know how to use
 them, thus reducing the overhead compared to scenario where all
 packets are sent to all processes.
@@ -1115,7 +1120,7 @@ including entire Minecraft logic.
 Much like Specus itself, plugins too are meant to be separated into
 two parts. Server part and node part. In server part, plugins can
 declare packets and codecs for those packets. They can also register
-for receiving different kind of messages which indicate what events
+for receiving different kinds of  messages which indicate what events
 are happening in the system.
 
 
@@ -1142,7 +1147,7 @@ which is instantiated when the plugin is loaded and into which the
 system messages are sent. It can also contain a list of classes, which
 the particular plugin is interested in. Only those messages would be
 sent to Actor. Because the plugin API is designed to be reused in both
-server and node, user of the API can define entry point class as she
+server and node, user of the API can define contents of entry point class as she
 wishes. For example, in server sub project the entry point contains
 list of packets and codecs for packets. On the other hand in node code
 the entry point contains processors for packets.
@@ -1153,13 +1158,13 @@ classpath when the user of plugin API is started.
 
 
 *** Implementation
-In common API, there is abstract class SimplePluginManager through
+In common API, there is abstract class =SimplePluginManager= through
 which all the plugin loading is done. It contains method
 =bootupPlugins= which takes a =File=, which represents directory
 containing plugins. First it attempts to  parse plugin descriptor from
 each .jar file it finds in plugin directory. If everything goes well,
 we now have a set of all plugin descriptors which contain plugin
-version and it's dependencies, which means we can now either validate
+version and it's dependencies, which means we can now validate
 that all dependencies are either fulfilled or there is something
 missing.
 
@@ -1179,8 +1184,8 @@ error occurs, whole server shuts down as it makes no sense trying to
 recover from these errors.
 
 *** Communication among plugins
-It is very important to have a plugin system to support very easy
-communication among plugins. That is so that a plugin can use
+It is very important for a plugin system to support very easy
+communication among plugins. That is because a plugin can use
 functionality already implemented by others.
 
 
@@ -1190,13 +1195,13 @@ Manager=, which is passed to plugin during initialization
 phase. =Plugin Manager= should always have the correct reference
 available, as the plugin system already verified that all plugin
 dependencies are available at this point. The received reference is
-simple =ActorRef=, as specified in Actor part of this paper, thus
-allowing user to simply send messages to it.
+simple =ActorRef=, as specified in Actor part of this paper, which
+allows user to simply send messages to it. 
 
 *** Stats
 Stats was first plugin I implemented in Specus. I needed a way to
 track connected users when debugging the server and later I added a
-feature that collected all the packets sent and received by processor
+feature that collected all the packets sent and received by server
 per client.
 
 
@@ -1234,7 +1239,7 @@ And last but not at all least, the Minecraft plugin. This plugin
 contains everything that is specific to Minecraft. The plugin itself
 is split into 3 parts:
 
-**** Common API A
+**** Common API
 Common API is the part of the project that defines all the different
 packets that can be sent or received by client. It was required to put
 these into separate jar, so that they can be easily reused. Also, if
@@ -1244,12 +1249,12 @@ the packets defined by Minecraft is received, this would be the jar to
 use.
 
 **** Server
-In a server part of the plugin, there are definitions of all the known
-packets that Minecraft supports, as well as their codecs. Now, most of
-these codecs are using generic codec described in this paper. However,
+In a server part of the plugin, there are definitions of all the
+codecs for each packet defined in common api. Now, most of
+these codecs are using generic codec described above. However,
 some of the packets use fields that are unique to them so i didn't
 feel necessity to add their encoding and decoding functions into
-generic codec and decided to implemenet their codecs by hand.
+generic codec and decided to implement their codecs by hand.
 
 
 **** Node
@@ -1260,7 +1265,7 @@ packet. Classes of these actors are then extracted from the plugin and
 instantiated in the server, thus giving server the control over them.
 
 As it turned out, it was quite simple to implement Minecraft
-functionality in Specus. I think that for the most part, It was thanks
+functionality in Specus. I think that for the most part, it was thanks
 to the usage of Actors. It is simple to reason about a system once we
 break it down into message passing between entities that don't depend
 on each other. It is also due to the fact that Minecraft the game is
@@ -1270,30 +1275,30 @@ get familiar with Actor systems, Scala and learning how to write an
 extensible server.
 
 
-** IO
+** IO & Clients
 In order to create a simple to use system, it is important to create
 right abstractions of IO operations and entities. In Specus, every
-connected client is represented by session id. Session id is a simple
+connected client is represented by session id. =SessionId= is a simple
 token, that is passed around when message is read or being sent. This
 token is created when a new client connects and is associated with
-Session object.
+=Session= object.
 
 
-Session object is abstraction, which knows how to write objects to
+=Session= object is abstraction, which knows how to write objects to
 connection with client and how to close the connection. These objects
-are stored in SessionManager and should never be visible to anyone
+are stored in =SessionManager= and should never be visible to anyone
 else. When server needs to write some data into a connection, it
-should ask SessionManager by passing it a SessionId and data to be
+should ask =SessionManager= by passing it a =SessionId= and data to be
 written.
 
 
 What this means is that any part of the system doesn't need to know
-anything about how actual IO is performed. It only needs a Session id
-and data to be written. Session id tokens are immutable and
+anything about how actual the IO is performed. It only needs a =SessionId=
+and data to be written. =SessionId= tokens are immutable and
 serializable, so they can be easily passed around.
 
 
-Description of how actual io is implemented can be found below.
+Description of how actual IO is implemented can be found below.
 ** Tools and reasoning behind them
 *** Redis
 Redis is a high performance key-value database that is used in Specus. Unlike most of key-value databases, it supports a number of different value types:
@@ -1348,21 +1353,22 @@ store the =Session ID= as an attachment. We also send
 =ClientConnected= notification to the plugin system, in case some
 plugin is interested (for example Stats plugin).
 
-**** channelClosed
+***** channelClosed
 This event is invoked when a client connection is closed. We send
 notification to both plugin system and to node, so that it can clean up
 after client and then we destroy session associated with the client.
 
-**** writeRequest
+***** writeRequest
 This event is invoked when data are being written into the channel. We
 just use this callback to sent notification to the plugin system.
 
-**** messageReceived
+***** messageReceived
 This event is invoked when a packet is parsed by Netty. We need to
-associate it with the client somehow, so that we can respond
+associate it with the client somehow, so that we can respond to
 it. Luckily, we saved =Session ID= as an attachment and we can
 withdraw it now. We sent the parsed packet and session id to both
-plugin system (so that it can be registered by stats plugin).
+plugin system (so that it can be registered by stats plugin) and to
+node.
 
 * Conclusion
 In the last part of this thesis, I will try to compare my
@@ -1386,7 +1392,7 @@ stores data in memory and only flushes them to disk after certain
 period of time. While the locally stored map has it's advantages, such
 as speed and simplicity, it would be very hard to create distributed
 server using such approach because we would need to either synchronize
-between nodes or split the map chunks to different
+files between nodes or split the map chunks to different
 servers. Synchronization would add a lot of additional traffic and
 complexity while splitting chunks would make for a very vulnerable
 design. If one server would have failed, entire part of map would
@@ -1395,7 +1401,7 @@ that happened on the edges where the map would have been
 split. Imagine an explosion - event which affects blocks in a radius
 from epicenter. If it happened on the edge of the map, we would not
 only need to update blocks on the part of the map where the explosion
-was triggered, we would also need to notify the neighbor server about
+was triggered, we would also need to notify the neighbor server about 
 event.
 
 With Redis, we get the map synchronization for free. Redis can work in
@@ -1486,21 +1492,27 @@ fashion.
 I got a chance to test how well Scala works with libraries designed
 for Java when using Netty library. I had no problems using it. The
 code looks comparable to Scala code. On the other hand, one has to pay attention to the
-fact that Java libraries usually are written using immutable objects,
+fact that Java libraries usually are written using mutable objects,
 so it requires more attention to keep track of all the possible
 thread-unsafe entities.
 *** Akka
-Akka is a very impressive piece of software. The only problem thing i
+Akka is a very impressive piece of software. The only thing I
 don't like about the way they implemented the Actors is that user
 looses a great deal of type safety. Any Actor can be accessed only
 through =ActorRef=, which gives no indication of the type of an
-Actor.
+Actor. 
 
 It would be nice if there was some way to determine the instance of an
 actor or at least be able to check what types of messages can Actor
 processes. The reason it can't be done in Akka is the fact that Akka
 actors can dynamically change their behavior and change which and how
 the messages are processed.
+
+On the other hand, that is probably the "necessary evil" of
+Actor pattern. Like Viktor Klang (CTO of TypeSafe, company behind
+Akka) said on his twitter account: "To me, Actor behaviors are islands
+of statically typed tranquility in a vast, chaotic ocean of dynamic
+message delivery." [fn::https://twitter.com/#!/viktorklang/status/197788489083924481]
 
 Other than that, I had no problems with Akka. I used more concepts
 from the framework, for example I used =TransactionalMap= to track
@@ -1519,7 +1531,7 @@ requests for sending the map chunks in a future, then we wait until they are
 all finished and then we send player the instruction to spawn.
 *** Redis and Netty
 I had no problems using Redis nor Netty. I must say I was very
-impressed with the simplicity of both of theirs API. Netty especially
+impressed with the simplicity of both of their APIs. Netty especially
 provides a very easy to use API which doesn't bother user with the low
 level implementation of networking and threading that goes along with it.
 ** Room for improvement and new features
