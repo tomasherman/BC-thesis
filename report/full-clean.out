@@ -23,8 +23,8 @@
 \BOOKMARK [1][-]{section.5}{Scala}{}% 23
 \BOOKMARK [2][-]{subsection.5.1}{Why Scala?}{section.5}% 24
 \BOOKMARK [2][-]{subsection.5.2}{JVM}{section.5}% 25
-\BOOKMARK [2][-]{subsection.5.3}{Qucik scala overview}{section.5}% 26
-\BOOKMARK [2][-]{subsection.5.4}{OO features}{section.5}% 27
+\BOOKMARK [2][-]{subsection.5.3}{Quick Scala overview}{section.5}% 26
+\BOOKMARK [2][-]{subsection.5.4}{Object oriented features}{section.5}% 27
 \BOOKMARK [3][-]{subsubsection.5.4.1}{Traits}{subsection.5.4}% 28
 \BOOKMARK [3][-]{subsubsection.5.4.2}{Objects}{subsection.5.4}% 29
 \BOOKMARK [3][-]{subsubsection.5.4.3}{Classes}{subsection.5.4}% 30
@@ -33,47 +33,46 @@
 \BOOKMARK [3][-]{subsubsection.5.5.2}{Vars and Vals}{subsection.5.5}% 33
 \BOOKMARK [3][-]{subsubsection.5.5.3}{First class functions}{subsection.5.5}% 34
 \BOOKMARK [3][-]{subsubsection.5.5.4}{Case classes}{subsection.5.5}% 35
-\BOOKMARK [3][-]{subsubsection.5.5.5}{Collection api}{subsection.5.5}% 36
+\BOOKMARK [3][-]{subsubsection.5.5.5}{Collection API}{subsection.5.5}% 36
 \BOOKMARK [2][-]{subsection.5.6}{Weaknesses}{section.5}% 37
 \BOOKMARK [2][-]{subsection.5.7}{Example usage of case classes and first class functions}{section.5}% 38
 \BOOKMARK [1][-]{section.6}{Actor model}{}% 39
 \BOOKMARK [2][-]{subsection.6.1}{The free lunch is over}{section.6}% 40
-\BOOKMARK [2][-]{subsection.6.2}{Problems with convetional models of concurrecny}{section.6}% 41
+\BOOKMARK [2][-]{subsection.6.2}{Problems with conventional models of concurrency}{section.6}% 41
 \BOOKMARK [3][-]{subsubsection.6.2.1}{Threads are expensive}{subsection.6.2}% 42
 \BOOKMARK [3][-]{subsubsection.6.2.2}{Thread based concurrency is hard}{subsection.6.2}% 43
 \BOOKMARK [2][-]{subsection.6.3}{Actor model overview}{section.6}% 44
 \BOOKMARK [2][-]{subsection.6.4}{Fundamental concepts}{section.6}% 45
 \BOOKMARK [2][-]{subsection.6.5}{Enter Akka}{section.6}% 46
 \BOOKMARK [3][-]{subsubsection.6.5.1}{Actors}{subsection.6.5}% 47
-\BOOKMARK [3][-]{subsubsection.6.5.2}{Remoting}{subsection.6.5}% 48
+\BOOKMARK [3][-]{subsubsection.6.5.2}{Remote access}{subsection.6.5}% 48
 \BOOKMARK [3][-]{subsubsection.6.5.3}{Fault tolerance}{subsection.6.5}% 49
 \BOOKMARK [1][-]{section.7}{Design and implementation}{}% 50
 \BOOKMARK [2][-]{subsection.7.1}{Minecraft}{section.7}% 51
 \BOOKMARK [3][-]{subsubsection.7.1.1}{Data types}{subsection.7.1}% 52
 \BOOKMARK [3][-]{subsubsection.7.1.2}{Metadata field}{subsection.7.1}% 53
 \BOOKMARK [2][-]{subsection.7.2}{Design of Specus}{section.7}% 54
-\BOOKMARK [3][-]{subsubsection.7.2.1}{Api and implementation}{subsection.7.2}% 55
+\BOOKMARK [3][-]{subsubsection.7.2.1}{API and implementation}{subsection.7.2}% 55
 \BOOKMARK [3][-]{subsubsection.7.2.2}{Server}{subsection.7.2}% 56
 \BOOKMARK [3][-]{subsubsection.7.2.3}{Node}{subsection.7.2}% 57
-\BOOKMARK [3][-]{subsubsection.7.2.4}{IO handling}{subsection.7.2}% 58
-\BOOKMARK [2][-]{subsection.7.3}{Plugin system}{section.7}% 59
-\BOOKMARK [3][-]{subsubsection.7.3.1}{General design}{subsection.7.3}% 60
-\BOOKMARK [3][-]{subsubsection.7.3.2}{Implementation}{subsection.7.3}% 61
-\BOOKMARK [3][-]{subsubsection.7.3.3}{Communication among plugins}{subsection.7.3}% 62
-\BOOKMARK [3][-]{subsubsection.7.3.4}{Stats}{subsection.7.3}% 63
-\BOOKMARK [3][-]{subsubsection.7.3.5}{Http frontend}{subsection.7.3}% 64
-\BOOKMARK [3][-]{subsubsection.7.3.6}{Minecraft}{subsection.7.3}% 65
-\BOOKMARK [2][-]{subsection.7.4}{IO}{section.7}% 66
-\BOOKMARK [2][-]{subsection.7.5}{Tools and reasoning behind them}{section.7}% 67
-\BOOKMARK [3][-]{subsubsection.7.5.1}{Redis}{subsection.7.5}% 68
-\BOOKMARK [3][-]{subsubsection.7.5.2}{Netty}{subsection.7.5}% 69
-\BOOKMARK [1][-]{section.8}{Conclusion}{}% 70
-\BOOKMARK [2][-]{subsection.8.1}{Comparison to official server}{section.8}% 71
-\BOOKMARK [2][-]{subsection.8.2}{Testing}{section.8}% 72
-\BOOKMARK [2][-]{subsection.8.3}{Review of design}{section.8}% 73
-\BOOKMARK [2][-]{subsection.8.4}{Review of used tools}{section.8}% 74
-\BOOKMARK [3][-]{subsubsection.8.4.1}{Scala}{subsection.8.4}% 75
-\BOOKMARK [3][-]{subsubsection.8.4.2}{Akka}{subsection.8.4}% 76
-\BOOKMARK [3][-]{subsubsection.8.4.3}{Redis and Netty}{subsection.8.4}% 77
-\BOOKMARK [2][-]{subsection.8.5}{Room for improvement and new features}{section.8}% 78
-\BOOKMARK [2][-]{subsection.8.6}{What have I learned}{section.8}% 79
+\BOOKMARK [2][-]{subsection.7.3}{Plugin system}{section.7}% 58
+\BOOKMARK [3][-]{subsubsection.7.3.1}{General design}{subsection.7.3}% 59
+\BOOKMARK [3][-]{subsubsection.7.3.2}{Implementation}{subsection.7.3}% 60
+\BOOKMARK [3][-]{subsubsection.7.3.3}{Communication among plugins}{subsection.7.3}% 61
+\BOOKMARK [3][-]{subsubsection.7.3.4}{Stats}{subsection.7.3}% 62
+\BOOKMARK [3][-]{subsubsection.7.3.5}{Http frontend}{subsection.7.3}% 63
+\BOOKMARK [3][-]{subsubsection.7.3.6}{Minecraft}{subsection.7.3}% 64
+\BOOKMARK [2][-]{subsection.7.4}{IO}{section.7}% 65
+\BOOKMARK [2][-]{subsection.7.5}{Tools and reasoning behind them}{section.7}% 66
+\BOOKMARK [3][-]{subsubsection.7.5.1}{Redis}{subsection.7.5}% 67
+\BOOKMARK [3][-]{subsubsection.7.5.2}{Netty}{subsection.7.5}% 68
+\BOOKMARK [1][-]{section.8}{Conclusion}{}% 69
+\BOOKMARK [2][-]{subsection.8.1}{Comparison to official server}{section.8}% 70
+\BOOKMARK [2][-]{subsection.8.2}{Testing}{section.8}% 71
+\BOOKMARK [2][-]{subsection.8.3}{Review of design}{section.8}% 72
+\BOOKMARK [2][-]{subsection.8.4}{Review of used tools}{section.8}% 73
+\BOOKMARK [3][-]{subsubsection.8.4.1}{Scala}{subsection.8.4}% 74
+\BOOKMARK [3][-]{subsubsection.8.4.2}{Akka}{subsection.8.4}% 75
+\BOOKMARK [3][-]{subsubsection.8.4.3}{Redis and Netty}{subsection.8.4}% 76
+\BOOKMARK [2][-]{subsection.8.5}{Room for improvement and new features}{section.8}% 77
+\BOOKMARK [2][-]{subsection.8.6}{What have I learned}{section.8}% 78

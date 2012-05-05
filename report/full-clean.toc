@@ -23,8 +23,8 @@
 \contentsline {section}{\numberline {5}Scala}{12}{section.5}
 \contentsline {subsection}{\numberline {5.1}Why Scala?}{12}{subsection.5.1}
 \contentsline {subsection}{\numberline {5.2}JVM}{13}{subsection.5.2}
-\contentsline {subsection}{\numberline {5.3}Qucik scala overview}{13}{subsection.5.3}
-\contentsline {subsection}{\numberline {5.4}OO features}{14}{subsection.5.4}
+\contentsline {subsection}{\numberline {5.3}Quick Scala overview}{13}{subsection.5.3}
+\contentsline {subsection}{\numberline {5.4}Object oriented features}{14}{subsection.5.4}
 \contentsline {subsubsection}{\numberline {5.4.1}Traits}{14}{subsubsection.5.4.1}
 \contentsline {subsubsection}{\numberline {5.4.2}Objects}{14}{subsubsection.5.4.2}
 \contentsline {subsubsection}{\numberline {5.4.3}Classes}{14}{subsubsection.5.4.3}
@@ -33,29 +33,28 @@
 \contentsline {subsubsection}{\numberline {5.5.2}Vars and Vals}{15}{subsubsection.5.5.2}
 \contentsline {subsubsection}{\numberline {5.5.3}First class functions}{15}{subsubsection.5.5.3}
 \contentsline {subsubsection}{\numberline {5.5.4}Case classes}{16}{subsubsection.5.5.4}
-\contentsline {subsubsection}{\numberline {5.5.5}Collection api}{16}{subsubsection.5.5.5}
-\contentsline {subsection}{\numberline {5.6}Weaknesses}{16}{subsection.5.6}
+\contentsline {subsubsection}{\numberline {5.5.5}Collection API}{16}{subsubsection.5.5.5}
+\contentsline {subsection}{\numberline {5.6}Weaknesses}{17}{subsection.5.6}
 \contentsline {subsection}{\numberline {5.7}Example usage of case classes and first class functions}{17}{subsection.5.7}
 \contentsline {section}{\numberline {6}Actor model}{19}{section.6}
 \contentsline {subsection}{\numberline {6.1}The free lunch is over}{19}{subsection.6.1}
-\contentsline {subsection}{\numberline {6.2}Problems with convetional models of concurrecny}{19}{subsection.6.2}
+\contentsline {subsection}{\numberline {6.2}Problems with conventional models of concurrency}{19}{subsection.6.2}
 \contentsline {subsubsection}{\numberline {6.2.1}Threads are expensive}{20}{subsubsection.6.2.1}
 \contentsline {subsubsection}{\numberline {6.2.2}Thread based concurrency is hard}{20}{subsubsection.6.2.2}
 \contentsline {subsection}{\numberline {6.3}Actor model overview}{20}{subsection.6.3}
 \contentsline {subsection}{\numberline {6.4}Fundamental concepts}{21}{subsection.6.4}
 \contentsline {subsection}{\numberline {6.5}Enter Akka}{22}{subsection.6.5}
 \contentsline {subsubsection}{\numberline {6.5.1}Actors}{22}{subsubsection.6.5.1}
-\contentsline {subsubsection}{\numberline {6.5.2}Remoting}{23}{subsubsection.6.5.2}
+\contentsline {subsubsection}{\numberline {6.5.2}Remote access}{23}{subsubsection.6.5.2}
 \contentsline {subsubsection}{\numberline {6.5.3}Fault tolerance}{23}{subsubsection.6.5.3}
 \contentsline {section}{\numberline {7}Design and implementation}{24}{section.7}
 \contentsline {subsection}{\numberline {7.1}Minecraft}{24}{subsection.7.1}
 \contentsline {subsubsection}{\numberline {7.1.1}Data types}{24}{subsubsection.7.1.1}
 \contentsline {subsubsection}{\numberline {7.1.2}Metadata field}{25}{subsubsection.7.1.2}
 \contentsline {subsection}{\numberline {7.2}Design of Specus}{25}{subsection.7.2}
-\contentsline {subsubsection}{\numberline {7.2.1}Api and implementation}{26}{subsubsection.7.2.1}
+\contentsline {subsubsection}{\numberline {7.2.1}API and implementation}{26}{subsubsection.7.2.1}
 \contentsline {subsubsection}{\numberline {7.2.2}Server}{26}{subsubsection.7.2.2}
 \contentsline {subsubsection}{\numberline {7.2.3}Node}{27}{subsubsection.7.2.3}
-\contentsline {subsubsection}{\numberline {7.2.4}IO handling}{27}{subsubsection.7.2.4}
 \contentsline {subsection}{\numberline {7.3}Plugin system}{27}{subsection.7.3}
 \contentsline {subsubsection}{\numberline {7.3.1}General design}{27}{subsubsection.7.3.1}
 \contentsline {subsubsection}{\numberline {7.3.2}Implementation}{28}{subsubsection.7.3.2}

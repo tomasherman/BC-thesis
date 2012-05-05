@@ -10,14 +10,14 @@
 #+INFOJS_OPT: view:nil toc:nil ltoc:t mouse:underline buttons:0 path:http://orgmode.org/org-info.js
 #+EXPORT_SELECT_TAGS: export
 #+EXPORT_EXCLUDE_TAGS: noexport
-#+LINK_UP:   
-#+LINK_HOME: 
+#+LINK_UP:
+#+LINK_HOME:
 #+XSLT:
 
 * Thanks
 I would like to thank to the following people and communities for help with my thesis:
 - Mr. Miroslav Uller for valuable comments and guidance
-- Everyone from Minecraft Coallition Wiki
+- Everyone from Minecraft Coalition Wiki
   [fn::http://www.wiki.vg/Main_Page] for all their hard work on
   writing great documentation of Minecarft protocol
 - Everyone from #mcdevs IRC channel for help with debugging and
@@ -38,109 +38,7 @@ writing one such server using very modern techniques and tools in
 order to create architecture, that is easy to reason about, maintain
 and extend. I will be implementing a subset of business logic for
 Minecraft game, which should be demanding enough to prove the points
-I'm making further in the paper. 
-
-* Goals
-In this part of the paper I will talk about goals of the project I
-will be working on. In the first part, I will reason about why I chose
-the goals the way I chose them while in the second part I will provide
-a brief summary of the goals in form of a list.
-
-** Reasoning
-I wanted to make this project a learning experience, which affected a
-lot of the decisions about which technologies to use as well as what
-subset of functionality described in the part about Minecraft to implemented.
-
-Reader would hopefully agree that while Minecraft is based on quite
-simple ideas, it is still a complex universe with a lot of
-details to implement. I wanted to focus mainly on basics, which I
-thought at the time would be most important for further development in
-the future.
-
-*** Server related goals
-The main focus of this project is the server infrastructure, which I
-hoped would be very independent of Minecraft itself. If I would have
-had done my work correctly, Specus server could be used for any other
-game or project easily.
-
-**** Simplicity
-I wanted the server infrastructure to be very simple to use and simple
-to reason about, because as I learned in my previous projects, building
-concurrent systems with networking IO can be quite difficult to get
-right. In order to achieve that, I used Scala programming language,
-which is said to have great support for concurrent programming. 
-
-I also decided to use Actor pattern, which seemed very interesting and
-very natural to use for when dealing with concurrency. 
-
-I also wanted to abstract away all the IO operations and the lower
-level mechanics of the server. I didn't want to deal with no buffers,
-sockets or channels when working on business logic.
-**** Extensibility 
-From the description of Minecraft above, I hope it is clear to the reader
-how important, fun and interesting are the Minecraft extensions. That
-is why I wanted my server to be built with extensions in mind from the
-start.
-
-I wanted it's extension system to be powerful enough to be able to
-implement entire Minecraft business logic as extension (extensions are
-called Plugins later in the text and in the code). 
-
-I wanted plugin programmers to be able to express dependencies on
-other plugin, as it's very common use case that a plugin wants to
-extend or cooperate with functionality provided by other plugins. 
-**** Distributivity
-I wanted my server to be able to spread the workload into multiple
-machines, because Minecraft it self has quite big problems with the
-workload. As mentioned above, map can contain up to $2 ^ {(32 + 32 + 8)}$
-blocks, so I felt it was important to be able to save all these data
-into remote database (or cluster of databases).
-
-*** Minecraft related goals
-Because I felt like I chose quite ambitious goals for the server
-architecture, I decided to keep it simple with the actual logic
-implementation and treat the Minecraft business logic as a proof of
-concept.  I decided, for now,to only implement just the
-creative mode described above. That allowed me to skip the
-implementation of inventory management and monsters, which would take
-a lot of time. 
-
-I also decided to not implement any complicated map generator. I
-implemented a very simple one for testing purposes which generates
-simple flat stone world.
-
-I decided not to implement in game maps, signs and items that required
-any special handling.
-
-I wanted to implement map streaming and on-the-fly map generation, map
-updates when player makes a change and persistent player position
-(position of a player is persisted between sessions).
-
-While that is not very impressive set of features, it should provide
-and test all the important features of the server architecture, as it
-needs to make a lot of database queries and updates.
-
-*** Brief summary of goals
-Following is the brief summary of the goals mentioned above in form of
-a list:
-
-- server architecture requirements
-  - implemented in Scala
-  - extensive usage of Actor mode
-  - database support for storing state
-  - extensible via plugins
-    - must be able to express dependencies on given plugin and it's
-      version
-    - must be powerful enough to be able to express entire Minecraft logic
-  - IO and socket networking abstracted away
-  - state moved from local variables into remote database
-- Mincraft functionality requirements
-  - player position persistence
-  - on the fly map generation
-  - map streaming
-  - map updates by player
-  - implemented as plugin
-  - must store all the state in a remote database
+I'm making further in the paper.
 
 * Minecraft
 In this chapter I will provide a brief overview of what Minecraft is,
@@ -153,7 +51,7 @@ interesting game with a lot of potential.
 Minecraft is a indie game developed by Markus Presson and Mojang which
 was published in 2011. It's a open world game, in which players are
 placed in a world made of blocks. These blocks can be mined and used
-as a building material. 
+as a building material.
 
 Players use these blocks to build various either items or kind of
 structures. For example, there has been successful attempts to build
@@ -196,19 +94,19 @@ Minecraft, but the basic ones are axe, shovel, hoe and pickaxe. Each
 of these can be made from either wood, stone, gold, iron or diamond
 which determines it's quality. Items are crafted by placing blocks
 into 2x2 or 3x3 matrix into different shapes, which determines the
-item to be crafted. 
+item to be crafted.
 
 Tools described above are useful for increasing efficiency of
 gathering blocks. For example iron pickaxe can crack stone a lot
 faster then wooden pickaxe. Some of the blocks can't even be gathered
 without good enough tool. Diamond block, for instance, require at
-least iron pickaxe. 
+least iron pickaxe.
 
 There are other items player can craft, though. For example, player
 can create a furnace, which uses coal blocks as fuel and can smelt
 ores into bar as well as cook food from raw meat that can be gathered
 from sheep, cows or pigs. It can also "cook" sand block into glass or
-cobble stone into smooth stone. 
+cobble stone into smooth stone.
 
 Minecraft also supports alternative forms of transportation with boats
 or mine carts, which can be placed upon a rails in order to move
@@ -242,10 +140,10 @@ The most common cause of health loss, however, are monsters. There is
 a number of monsters in Minecraft:
 **** Zombie
  Slow melee monster that deals quite a lot of damage, when killed
- drops meat that can be cooked and eaten.      
-**** Skeleton  
-Shoots arrows, when killed drops arrows or bones.                                                                              
-**** Creeper  
+ drops meat that can be cooked and eaten.
+**** Skeleton
+Shoots arrows, when killed drops arrows or bones.
+**** Creeper
 Very quiet monster which creeps up on player and explodes when in
 proximity of player. Makes sizzling noise before detonation.
 **** Spider
@@ -261,7 +159,7 @@ looks at it first. Otherwise it's not hostile.
 
 
 Monsters spawn in the places where there is no light available. Light
-can come either from sun, torches, fire or lava. 
+can come either from sun, torches, fire or lava.
 *** Redstone
 Redstone is one of the most interesting features of
 Minecraft. Redstone is a rare ore that can be found deep in the
@@ -299,9 +197,9 @@ perform action (non exhaustive table):
 Using these tools, Minecraft users were able to create some very
 impressive structures. There is for example a calculator
 implementation, song playing machines or even games created with
-Redstone infrastructure. 
+Redstone infrastructure.
 
-Other than that, Redstone circuits are often used in /addventure maps/
+Other than that, Redstone circuits are often used in /adventure maps/
 for creating puzzles and challenges. Typical example of Redstone usage
 would be asking player to find a button, in order to open doors into
 next part of the map. It can also be used for creating traps, by
@@ -317,19 +215,19 @@ pouring water over lava blocks.
 It symbolizes kind of an evil realm with some unique resources, but
 overall is not overly interesting. The portal system, however, is used
 quite often in /adventure maps/.
-*** Goal
+*** Goals of the game  
 Minecraft is very open ended game, so there is no real ending to the
 game. The only formal ending to the game requires player to find one
 of many randomly generated underground fortresses, build a portal
 inside and go through. There the player will find a dragon, which he
 must slay. However, once that is done and credits have passed, the
-game still can be played. 
+game still can be played.
 
 More often than not, though, players don't even bother with this quest
 and play the game only for the joy of building interesting
 structures. Game usually ends when player gets bored. Unless player
 plays on hardcore mode, which automatically deletes the world upon
-players first death. 
+players first death.
 *** Creative mode
 Creative mode was added to Minecraft in order to make it easier for
 people to create impressive structures. Those people may not want to
@@ -346,7 +244,7 @@ creative mode on and off at will.
 *** Adventure maps
 One of the reasons Minecraft got so popular are maps made by players,
 which usually contain a story, quests and riddles for player to go
-through. 
+through.
 
 Adventure map is a regular map, which one would download, which
 usually contains additional document which describes the story, rules
@@ -378,10 +276,10 @@ radioactivity.
 Another very interesting extension is Computercraft. It adds
 programmable robots into the game. Robots are programmed via in game
 terminal using embedded LUA [fn::www.lua.org] programming language
-(added by the extension). 
+(added by the extension).
 
 There are for example mining probes, which can be programmed to search
-for given materials, mine only those and return them to the owner. 
+for given materials, mine only those and return them to the owner.
 It can also be used for password protecting doors. It can be even used
 to implement an text-based RPG (in game terminals are text-only and
 computer craft doesn't include any tools for creating graphical UI).
@@ -390,199 +288,721 @@ There is a great number of extensions. Just quickly mention a few
 others, there is an extension that adds mini map for players. There is
 an extension that adds gps-like navigation and ability to create
 points of interest. There are extensions that add new items, enemies
-or blocks and so on. 
+or blocks and so on.
 
+* Goals
+In this part of the paper I will talk about goals of the project I
+will be working on. In the first part, I will reason about why I chose
+the goals the way I chose them while in the second part I will provide
+a brief summary of the goals in form of a list.
+
+** Reasoning
+I wanted to make this project a learning experience, which affected a
+lot of the decisions about which technologies to use as well as what
+subset of functionality described in the part about Minecraft to implemented.
+
+Reader would hopefully agree that while Minecraft is based on quite
+simple ideas, it is still a complex universe with a lot of
+details to implement. I wanted to focus mainly on basics, which I
+thought at the time would be most important for further development in
+the future.
+
+*** Server related goals
+The main focus of this project is the server infrastructure, which I
+hoped would be very independent of Minecraft itself. If I would have
+had done my work correctly, Specus server could be used for any other
+game or project easily.
+
+**** Simplicity
+I wanted the server infrastructure to be very simple to use and simple
+to reason about, because as I learned in my previous projects, building
+concurrent systems with networking IO can be quite difficult to get
+right. In order to achieve that, I used Scala programming language,
+which is said to have great support for concurrent programming.
+
+I also decided to use Actor pattern, which seemed very interesting and
+very natural to use for when dealing with concurrency.
+
+I also wanted to abstract away all the IO operations and the lower
+level mechanics of the server. I didn't want to deal with no buffers,
+sockets or channels when working on business logic.
+**** Extensibility
+From the description of Minecraft above, I hope it is clear to the reader
+how important, fun and interesting are the Minecraft extensions. That
+is why I wanted my server to be built with extensions in mind from the
+start.
+
+I wanted it's extension system to be powerful enough to be able to
+implement entire Minecraft business logic as extension (extensions are
+called Plugins later in the text and in the code).
+
+I wanted plugin programmers to be able to express dependencies on
+other plugin, as it's very common use case that a plugin wants to
+extend or cooperate with functionality provided by other plugins.
+**** Distributivity
+I wanted my server to be able to spread the workload into multiple
+machines, because Minecraft it self has quite big problems with the
+workload. As mentioned above, map can contain up to $2 ^ {(32 + 32 + 8)}$
+blocks, so I felt it was important to be able to save all these data
+into remote database (or cluster of databases).
+
+*** Minecraft related goals
+Because I felt like I chose quite ambitious goals for the server
+architecture, I decided to keep it simple with the actual logic
+implementation and treat the Minecraft business logic as a proof of
+concept.  I decided, for now,to only implement just the
+creative mode described above. That allowed me to skip the
+implementation of inventory management and monsters, which would take
+a lot of time.
+
+I also decided to not implement any complicated map generator. I
+implemented a very simple one for testing purposes which generates
+simple flat stone world.
+
+I decided not to implement in game maps, signs and items that required
+any special handling.
+
+I wanted to implement map streaming and on-the-fly map generation, map
+updates when player makes a change and persistent player position
+(position of a player is persisted between sessions).
+
+While that is not very impressive set of features, it should provide
+and test all the important features of the server architecture, as it
+needs to make a lot of database queries and updates.
+
+** List summary of goals
+Following is the brief summary of the goals mentioned above in form of
+a list:
+
+- server architecture requirements
+  - implemented in Scala
+  - extensive usage of Actor mode
+  - database support for storing state
+  - extensible via plugins
+    - must be able to express dependencies on given plugin and it's
+      version
+    - must be powerful enough to be able to express entire Minecraft logic
+  - IO and socket networking abstracted away
+  - state moved from local variables into remote database
+- Minecraft functionality requirements
+  - player position persistence
+  - on the fly map generation
+  - map streaming
+  - map updates by player
+  - implemented as plugin
+  - must store all the state in a remote database
+ 
 * Scala
-In this chapter, I will try to explain why i chose to use Scala language for implementing Specus. Discuss strenghts of Scala compared to other alternatives and provide a quick overview of the most useful features which I used in Specus. In the last part of this chapter, I will discuss some of the weaknesses of of Scala and describe how i used the features menioned in the rest of this chapter.
+In this chapter, I will try to explain why i chose to use Scala
+language for implementing Specus. Discuss strengths of Scala compared
+to other alternatives and provide a quick overview of the most useful
+features which I used in Specus. In the last part of this chapter, I
+will discuss some of the weaknesses of Scala and describe how i
+used the features mentioned in the rest of this chapter.
+
 ** Why Scala?
-There were several reasons which lead me to choose Scala for Specus implementation. First of all, I wanted to make this project a learning experience. And ever since i took Haskell/Lisp class, I was interested in functional programing. I think that functional programming will become more popular and more desired skill to have in years to come, due to the increasing demand on correct and concurrent software. I am also quite experienced with Java language. Scala provides very good support for functional programming while still preserving many concepts from object oriented programming. So it seemd like a natural choice to choose Scala.
+There were several reasons which lead me to choose Scala for Specus
+implementation. First of all, I wanted to make this project a learning
+experience. And ever since i took Haskell/Lisp class, I was interested
+in functional programing. I think that functional programming will
+become more popular and more desired skill to have in years to come,
+due to the increasing demand on correct and concurrent software. I am
+also quite experienced with Java language. Scala provides very good
+support for functional programming while still preserving many
+concepts from object oriented programming. So it seemed like a natural
+choice to choose Scala.
+
 ** JVM
-Scala source is compiled into JVM bytecode. That means that any scala projects automatically benefits from all the effort people have put into optimizing JVM aswell as features that speed up computations during runtime (JIT compilation, code inlining etc). JVM programs are, obviously, platform independent (as long as Java Runtime Environment is avalible for given platform), so one gets platform independence for free. 
+Scala source is compiled into JVM bytecode. That means that any Scala
+projects automatically benefits from all the effort people have put
+into optimizing JVM aswell as features that speed up computations
+during runtime (JIT compilation, code inlining etc). JVM programs are,
+obviously, platform independent (as long as Java Runtime Environment
+is avalible for given platform), so one gets platform independence for
+free.
 
-There also exist a number of great and mature tools and libraries written and compiled for JVM platofrm, which can be very easily used while working with Scala. For example one could use a Proguard[fn::http://proguard.sourceforge.net/] program to minimize the jar produced by scala compiler by removing the unused classes from libraries and compiled code.
-** Qucik scala overview
-Scala was designed by Martin Odersky and his team at ÉCOLE POLYTECHNIQUE FÉDÉRALE DE LAUSANNE [fn::http://www.epfl.ch/index.en.html].The name stands for Scalable language, which describes the language rather well. Please note, that /Scalable language/ is not meant in a sense of horizontal/vertical scalability (Scala is as good as any language in that sense of a the word), but authors rather meant it in a sense that the language features scale with the experiecne of user [fn::http://www.scala-lang.org/node/8610]. In Scala, it is relatively easy to design libraries that appear to be language features. For example the new /try with resource/ statement added in JDK7 [fn::http://docs.oracle.com/javase/7/docs/technotes/guides/language/try-with-resources.html] could be implemented in scala on library level very easily. 
 
-Scala is a rather unique mix of object oriented concepts and functional programming concepts with very powerful standard library, which contains, among other things:
+There also exist a number of great and mature tools and libraries
+written and compiled for JVM platform, which can be very easily used
+while working with Scala. For example one could use a
+Proguard[fn::http://proguard.sourceforge.net/] program to minimize the
+jar produced by Scala compiler by removing the unused classes from
+libraries and compiled code.
+
+** Quick Scala overview
+Scala was designed by Martin Odersky and his team at ÉCOLE
+POLYTECHNIQUE FÉDÉRALE DE LAUSANNE
+[fn::http://www.epfl.ch/index.en.html]. The name stands for Scalable
+language, which describes the language rather well. Please note, that
+/Scalable language/ is not meant in a sense of horizontal/vertical
+Scalability (Scala is as good as any language in that sense of a the
+word), but authors rather meant it in a sense that the language
+features scale with the experience of user
+[fn::http://www.Scala-lang.org/node/8610]. In Scala, it is relatively
+easy to design libraries that appear to be language features. For
+example the new /try with resource/ statement added in JDK7
+ [fn::http://docs.oracle.com/Javase/7/docs/technotes/guides/language/try-with-resources.html]
+ could be implemented in Scala on library level very easily.
+
+
+Scala is a rather unique mix of object oriented concepts and
+functional programming concepts with very powerful standard library,
+which contains, among other things:
 - rich collection framework with both mutable and persistent implementations
 - parallel collections (collections, whose methods are processed in multiple threads)
 - parser combinators (library for simple writing of powerful parsers)
-- wrappers for around many of JDK featuresss for more Scala-like usage
+- wrappers for around many of JDK features for more Scala-like usage
 
-** OO features
-Much like in Java, code in Scala is organized using constructs from object oriented programing. In Scala, there are 3 basic entities: Classes, Objects and Traits. Following is the brief overview of each of the entities. 
+** Object oriented features
+Much like in Java, code in Scala is organized using constructs from
+ object oriented programing. In Scala, there are 3 basic entities:
+ Classes, Objects and Traits.
+ Following is the brief overview of each of the entities.
 *** Traits
-In Scala, trait are kind of an mix between java interfaces and abstract classes. Traits can define method, which can either be left abstract (trait only defines the header of the method, implementation is left to the user) or can contain implementation aswell. Traits can not only define methods, but fields aswell.
+In Scala, trait are kind of an mix between Java interfaces and
+ abstract classes. Traits can define method, which can either be left
+ abstract (trait only defines the
+ header of the method, implementation is left to the user) or can
+ contain implementation as well. Traits can not only define methods,
+ but fields as well.
 
-Traits can extend 0 or more traits. Trait can also declare it's dependency on other entity. For example, we can have a trait =ChatSocket= with method =pullChatData()= which returns array of bytes and we want to create trait =ChatFormatter= with method =printableChatData()= functionality which uses =pullChatData()= and creates formatted string. That means we need to make sure that both of these traits are mixed into same object. We could define the traits like so:
+
+Traits can extend 0 or more traits. Trait can also declare it's
+dependency on other entity. For example, we can have a trait
+=ChatSocket= with method =pullChatData()= which returns array of bytes
+and we want to create trait =ChatFormatter= with method
+=printableChatData()= functionality which uses =pullChatData()= and
+creates formatted string. That means we need to make sure that both of
+these traits are mixed into same object. We could define the traits
+like so:
+
 
 =trait ChatSocket { def pullChatData(): Array[Byte] = ... }=
 
 =trait ChatFormatter { self: ChatSocket => printableChatData() = ... }=
 
-Now whenever we create object which extends =ChatFormatter=, we need to also extend =ChatSocket= or the code will not compile.
+Now whenever we create object which extends =ChatFormatter=, we need
+to also extend =ChatSocket= or the code will not compile.
+
 
 *** Objects
-In Scala there is entity called objects, which is basically a class that is guaranteed to be only presented once in a JVM. It's java equivalent would be class that is created using Singleton pattern. 
+In Scala there is entity called objects, which is basically a class
+that is guaranteed to be only presented once in a JVM. It's Java
+equivalent would be class that is created using Singleton pattern.
 
-Objects can extend traits, but nothing can extend objects. Objects don't have constructors. Every method on object is "static", which is why objects are commonly used as what is called "companion objects" to classes. Companion objects usually contain factory methods aswell as other useful functions for given class.
+
+Objects can extend traits, but nothing can extend objects. Objects
+don't have constructors. Every method on object is "static", which is
+why objects are commonly used as what is called "companion objects" to
+classes. Companion objects usually contain factory methods as well as
+other useful functions for given class.
+
 
 *** Classes
-Classes are very similar to classes from languages like Java. They have constructors, can extend a class and implement 0 or more traits.
+Classes are very similar to classes from languages like Java. They
+have constructors, can extend a class and implement 0 or more traits.
+
 ** Functional and exotic features
-Unlike in Java, scala supports a vast set of features usually avalible in functional languages, aswell as other useful concepts. Here I will briefly introduce some of the interesting concepts and at the end of the chapter I will try to show example of an interesting application of these concepts.
+Unlike in Java, Scala supports a vast set of features usually available
+in functional languages, as well as other useful concepts. Here I will
+briefly introduce some of the interesting concepts and at the end of
+the chapter I will try to show example of an interesting application
+of these concepts.
+
 *** Pattern matching
-One of the features I liked most about Haskell was pattern matching. One can think of pattern matching as about more powerful version of switch/case statements. 
+One of the features I liked most about Haskell was pattern
+matching. One can think of pattern matching as about more powerful
+version of switch/case statements.
 
-User defines a sequence of patterns and callbacks that is called when pattern matches. Patterns are tried in order in which they were defined. 
 
-Scala implements this feature by using entities called extractors. Extractors are functions that are applied to input and return either =Some(value)= or =None= named =unapply=. If the extractor return =Some=, it is considered to match the input. Otherwise the next extractor is tried. 
+User defines a sequence of patterns and callbacks that is called when
+pattern matches. Patterns are tried in order in which they were
+defined.
+
+
+Scala implements this feature by using entities called
+extractors. Extractors are functions that are applied to input and
+return either =Some(value)= or =None= named =unapply=. If the
+extractor return =Some=, it is considered to match the
+input. Otherwise the next extractor is tried.
+
 *** Vars and Vals
-Scala has two types of fields: vals nad vars. Vals are fields that are guaranteed to be assigned only once and never changed. Vars on the other hand can be changed just like a regular Java variable. It is considered good practice to always use vals, unless it's necesarry to use var. 
+Scala has two types of fields: vals and vars. Vals are fields that are
+guaranteed to be assigned only once and never changed. Vars on the
+other hand can be changed just like a regular Java variable. It is
+considered good practice to always use vals, unless it's necessary to
+use var.
+
 
 *** First class functions
-In Scala, functions are first class citizens. That means, in Scala one can treat functions like any other datatype. Function can be stored in variable, it can be passed around and created on demand. Functions can return new functions and so on. 
+In Scala, functions are first class citizens. That means, in Scala one
+can treat functions like any other datatype. Function can be stored in
+variable, it can be passed around and created on demand. Functions can
+return new functions and so on.
 
-Scala compiler creates a java class for every first class function (methods of objects are created as regular java methods of objects), so basically storing and passing function becomes simply storing and passing of a reference to the created object. This created class has an =apply([argument-list])= method generated, which represents the function ivocation. In scala there is a shortcut to invoking =apply([argument-list])= methods by simply calling =([argument-list])= on the object. For example =a([argument-list])= is translated to =a.apply([argument-list])=. This means that it's really easy to even create objects/classes that can be used as functions, by simply defining =apply([argument-list])= method. 
+
+Scala compiler creates a Java class for every first class function
+(methods of objects are created as regular Java methods of objects),
+so basically storing and passing function becomes simply storing and
+passing of a reference to the created object. This created class has
+an =apply([argument-list])= method generated, which represents the
+function invocation. In Scala there is a shortcut to invoking
+=apply([argument-list])= methods by simply calling =([argument-list])=
+on the object. For example =a([argument-list])= is translated to
+=a.apply([argument-list])=. This means that it's really easy to even
+create objects/classes that can be used as functions, by simply
+defining =apply([argument-list])= method.
+
 *** Case classes
-Case classes are quite interesting feature of Scala. They are defined using =case= keyword like so =case class X([constructor-arguments])=. For example, lets say we want to create a class representing a point in 3D space. Case class could look like so: =case class Point3d(x: Int, y: Int, z:Int)=. 
+Case classes are quite interesting feature of Scala. They are defined
+using =case= keyword like so =case class
+X([constructor-arguments])=. For example, lets say we want to create a
+class representing a point in 3D space. Case class could look like so:
+=case class Point3d(x: Int, y: Int, z:Int)=.
 
-For such class, Scala compiler will generate a few very useful methods. First of all, a reasonable =toString=, =equals= and =hashCode= methods are generated, which use constructor parameters to compare equality and to generate hash code. A companion objects with factory method and extractor methods are generated for given case class aswell. Compiler also generates methods that allow user to access the fields in order they were declared in constructor. This might not seem like a very interesting feature but it is used to great success in specus and is described below.
 
-It's important to note that constructor parameters of case classes can be accessed (as fields) and are immutable.
-*** Collection api
-Scala has very impressive set of collections. It has common datastructures - list, vector, stack, queue, map, set and possibly even more. All of these are avalible in multiple versions. When not specified otherwise, datastructures are avalible as so called "persistent datastructures". Is a datastructure, that when altered creates what seems like a new instance of datastructe with altered content. Original instance remains unchanged. Operations on persistent datastructures use clever tricks and structure sharing in order to achieve same complexities as their mutable versions.
+For such class, Scala compiler will generate a few very useful
+methods. First of all, a reasonable =toString=, =equals= and
+=hashCode= methods are generated, which use constructor parameters to
+compare equality and to generate hash code. A companion objects with
+factory method and extractor methods are generated for given case
+class as well. Compiler also generates methods that allow user to
+access the fields in order they were declared in constructor. This
+might not seem like a very interesting feature but it is used to great
+success in specus and is described below.
 
-Scala also have mutable versions of datastructures. Those are the equivalents of datastructures that can be found in most languages.
 
-Speciality of Scala standard library are paralell datastrucutes. Those are persistent datastructures, but their speciality is that methods defined on them like =filter=, =map= etc are executed from multiple threads.
+It's important to note that constructor parameters of case classes can
+be accessed (as fields) and are immutable.
+
+
+*** Collection API
+Scala has very impressive set of collections. It has common
+data structures - list, vector, stack, queue, map, set and possibly
+even more. All of these are available in multiple versions. When not
+specified otherwise, data structures are available as so called
+"persistent data structures". Persistent data structure is a data
+structure, that when altered creates what seems like a new instance of
+data structure with altered content. Original instance remains
+unchanged. Operations on persistent  data structures use clever tricks
+and structure sharing in order to achieve similar complexities as their mutable versions.
+
+
+Scala also have mutable versions of data structures. Those are the
+equivalents of data structures that can be found in most languages.
+
+
+Very interesting feature of Scala standard library are paralel data structures. Those
+are persistent data structures, but their speciality is that methods
+defined on them like =filter=, =map= etc are executed using multiple
+threads.
+
+
 ** Weaknesses
-As with most tools, there are tradeoffs when using Scala. In this part of the paper I will talk about some of the negatives I encountered when using Scala.
- 
-First of all, Scala is quite a new technology, so the tool support is not as advanced as for example for Java, but it is getting better. I used IntelliJ Idea IDE with Scala plugin when developing Specus and it was reasonably plesant experience. It supports basic refactoring aswell as error highlighting. However, it sometimes reports error in a code that is prefectly compilable.
+As with most tools, there are trade offs when using Scala. In this part
+of the paper I will talk about some of the negatives I encountered
+when using Scala.
 
-The more important issue with Scala is the naming of all the generated code by scala compier. It can sometimes be difficult to figure out when and why exceptions are being thrown, especially because it's common to use so called "one liners" quite often when dealing with collections and so on, which condense quite a lot of code into 1 line of code. Every time we use anonymous function, scala compiler generates a class representing that function and gives it some generic name. It uses the classpath to package in which the function is defined followed by =$= followed by some arbirary text to guarantee uniqueness of the name. For example for function in val =f= in object =o= defined like so:
+
+First of all, Scala is quite a new technology, so the tool support is
+not as advanced as for example for Java, but it is getting better. I
+used IntelliJ Idea IDE with Scala plugin when developing Specus and it
+was reasonably pleasant experience. It supports basic refactoring
+as well as error highlighting. However, it sometimes reports error in a
+code that is perfectly correct.
+
+
+The more important issue with Scala is the naming of all the generated
+code by Scala compiler. It can sometimes be difficult to figure out
+when and why exceptions are being thrown, especially because it's
+common to use so called "one liners" quite often when dealing with
+collections and so on, which condense quite a lot of code into 1 line
+of code. Every time we use anonymous function, Scala compiler
+generates a class representing that function and gives it some generic
+name. It uses the classpath to package in which the function is
+defined followed by =$= followed by some arbitrary text to guarantee
+uniqueness of the name. For example for function in val =f= in object
+=o= defined like so:
+
 
 =object o { val f = () => throw new Exception() }=
 
-and invoked: 
+and invoked:
 
 =o.f()=
 
-will return following stacktrace:
+will return following stack trace:
 
-=java.lang.Exception=
+=Java.lang.Exception=
 =at o$$anonfun$1.apply(<console>:7)=
 =at o$$anonfun$1.apply(<console>:7)=
 
 
-One can see how the stack traces could get very unreadable very fast. Luckily, after a while I didn't find this to be a big deal but it was definitely a challange early on.
+One can see how the stack traces could get very unreadable very
+fast. Luckily, after a while I didn't find this to be a big deal but
+it was definitely a challenge early on.
+
 
 ** Example usage of case classes and first class functions
-In this part of the paper I will talk about what I thought was quite interesting usage of the above described features. First I will explain what I was trying to build and why and then I will go into details of implementation.
+In this part of the paper I will talk about what I thought was quite
+interesting usage of the above described features. First I will
+explain what I was trying to build and why and then I will go into
+details of implementation.
 
-Minecraft clinets communicate with server using TCP connection. There are about 70 different types of "packets" (by packets i mean logical packets, as TCP is stream service so there are no any real packets visible to user) that are being sent over the wire. There are many different ways to implement such mechanism, but the way I chose to do it is to create a case class for every different kind of packet which would represent the fields of packet and a codec, which knows how to take the instance of given packet and encode it into a byte array which can be sent via tcp and read by client. It also knows how to read a byte array and parse it into the given packet case class.
 
-Most naive, but in some languages the only solution would be simply creating codecs by hand and copy-pasting the encoding code in. One might think that it would be possible to use java reflection api [fn::http://docs.oracle.com/javase/1.4.2/docs/api/java/lang/reflect/package-summary.html] to figure out what the type of value are the fields of given packet and parse/encode them accordingly. 
+Minecraft clients communicate with server using TCP connection. There
+are about 70 different types of "packets" (by packets i mean logical
+packets, as TCP is stream service so there are no any real packets
+visible to user) that are being sent over the wire. There are many
+different ways to implement such mechanism, but the way I chose to do
+it is to create a case class for every different kind of packet which
+would represent the fields of packet and a codec, which knows how to
+take the instance of given packet and encode it into a byte array
+which can be sent via TCP and read by client. It also knows how to
+read a byte array and parse it into the given packet case class.
 
-And that does work fine for parsing - java reflection gives us the tools to obtain constructor of given class. From that constructor, we can figure out all it's parameters aswell as their types (we can get class object of the parameters) and it gives us a method to programatically invoke the constructor with array of =Object= values that are used as contructor paramters. Thus providing us with enough power to create generic parser that would figure out how to parse packet just from it's constructor.
 
-The real problem is with encoding the packet. While we can get all declared fields of given class, those fields are given in no particular order [fn::http://docs.oracle.com/javase/1.3/docs/api/java/lang/Class.html]. We could ofcourse use tricks like annotations to establish the order of fields, but that would introduce more boilerplate and in the end would make our code more confusing.
+Most naive, but in some languages the only solution would be simply
+creating codecs by hand and copy-pasting the encoding code in. One
+might think that it would be possible to use Java reflection API
+[fn::http://docs.oracle.com/Javase/1.4.2/docs/api/Java/lang/reflect/package-summary.html]
+to figure out what the type of value are the fields of given packet
+and parse/encode them accordingly.
 
-Luckily, like described above, case classes provide api for users to access constructor fields in order in which they were defined.
 
-So now we have a way to get types of constructor paramters of given class and we know how to access those fields in order they were defined in. All we need now is some kind of mapping between type of class and a function that would be able to parse and encode that type. But that should be easy, because as described above, functions are first class entities. We can simply create =Map= from =Class= object to =(_ <: Any, ChannelBuffer) => Unit= for encoding (function that takes anything and channel buffer, into which we encode the packet and returns nothing) and =Map= from =Class= to =(ChannelBuffer) => Any= (function that takes channel buffer and returns anything) for decoding.
+And that does work fine for parsing - Java reflection gives us the
+tools to obtain constructor of given class. From that constructor, we
+can figure out all it's parameters as well as their types (we can get
+class object of the parameters) and it gives us a method to
+programmatically invoke the constructor with array of =Object= values
+that are used as constructor parameters. Thus providing us with enough
+power to create generic parser that would figure out how to parse
+packet just from it's constructor.
 
-Above solution has a problem, still. It operates with Any, which basically means we loose any type safety, For example we could put into our map mapping from class of Int to function that returns String. We can't make the type constraints on map any stronger, because we couldn't add all the datatypes into it, obviously. What we can do is create an api which would use scala generics and made sure that functions have proper headers and add it to our maps for us.
 
-Basically, using approach described above, I was able to save myself writting about 60 classes full of boilerplate code, in which it would be very easy to make errors. I still had to implement some codecs by hand, as minecraft api is not designed very well, though.
+The real problem is with encoding the packet. While we can get all
+declared fields of given class, those fields are given in no
+particular order
+[fn::http://docs.oracle.com/Javase/1.3/docs/api/Java/lang/Class.html]. We
+could of course use tricks like annotations to establish the order of
+fields, but that would introduce more boilerplate and in the end would
+make our code more confusing.
+
+
+Luckily, like described above, case classes provide API for users to
+access constructor fields in order in which they were defined.
+
+
+So now we have a way to get types of constructor parameters of given
+class and we know how to access those fields in order they were
+defined in. All we need now is some kind of mapping between type of
+class and a function that would be able to parse and encode that
+type. But that should be easy, because as described above, functions
+are first class entities. We can simply create =Map= from =Class=
+object to =(_ <: Any, ChannelBuffer) => Unit= for encoding (function
+that takes anything and channel buffer, into which we encode the
+packet and returns nothing) and =Map= from =Class= to =(ChannelBuffer)
+=> Any= (function that takes channel buffer and returns anything) for
+decoding.
+
+
+Above solution has a problem, still. It operates with Any, which
+basically means we loose any type safety, For example we could put
+into our map mapping from class of Int to function that returns
+String. We can't make the type constraints on map any stronger,
+because we couldn't add all the data types into it, obviously. What we
+can do is create an API which would use Scala generics and made sure
+that functions have proper headers and add it to our maps for us.
+
+
+Basically, using approach described above, I was able to save myself
+writing about 60 classes full of boilerplate code, in which it would
+be very easy to make errors. I still had to implement some codecs by
+hand, as Minecraft API is not designed very well, though.
+
 
 * Actor model
-In this chapter, I will discuss why one should care about concurrency, I will take a look at conventional models of concurrent computations on Java Virtual Machine (JVM) and problems that goes along with them. Then I will talk about fundamental concepts of Actor model followed by more detailed description of Akka - my toolkit of choice for actor systems on JVM platform.
-** The free lunch is over
-"The free lunch is over" is an article written by Herb Sutter that appeared in Dr.Dobb's journal in 2005 [fn::http://www.gotw.ca/publications/concurrency-ddj.htm]. He talks about the end of an era, in which software is getting faster (not more performant) simply by the fact that the hardware in getting faster. He argues, that while historically companies like AMD or Intel focused on increasing the clock speed of CPUs, it is no longer possible, due to physical limitations. So instead what these companies are doing in order to increase power of their products is adding more cores onto the chips. 
+In this chapter, I will discuss why one should care about concurrency,
+I will take a look at conventional models of concurrent computations
+on Java Virtual Machine (JVM) and problems that goes along with
+them. Then I will talk about fundamental concepts of Actor model
+followed by more detailed description of Akka - my toolkit of choice
+for actor systems on JVM platform.
 
-That means, that in order to harness the power of this new hardware, we need to approach the craft of writing software in a different way. We need to focus on concurrency and we need to focus on creating tools that will help writing concurrent software easier.
-** Problems with convetional models of concurrecny
-Probably the most common concurrency entity used today in programming are threads. Concept of thread comes from operating systems and kind of leaks through into programming langue libraries. Thread allows us to execute concurrently with very little (programming) effort. For example all we need to do in Java programming language, is to create instance of class extending -java.lang.Thread- and implement the -public void run()- method. Threads are very convinient that way.
+** The free lunch is over
+"The free lunch is over" is an article written by Herb Sutter that
+appeared in Dr.Dobb's journal in 2005
+[fn::http://www.gotw.ca/publications/concurrency-ddj.htm]. He talks
+about the end of an era, in which software is getting faster (not more
+performant) simply by the fact that the hardware in getting faster. He
+argues, that while historically companies like AMD or Intel focused on
+increasing the clock speed of CPUs, it is no longer possible, due to
+physical limitations. So instead what these companies are doing in
+order to increase power of their products is adding more cores onto
+the chips.
+
+
+That means, that in order to harness the power of this new hardware,
+we need to approach the craft of writing software in a different
+way. We need to focus on concurrency and we need to focus on creating
+tools that will help writing concurrent software easier.
+
+** Problems with conventional models of concurrency
+Probably the most common concurrency entity used today in programming
+are threads. Concept of thread comes from operating systems and kind
+of leaks through into programming language libraries. Thread allows us
+to execute concurrently with very little (programming) effort. For
+example all we need to do in Java programming language, is to create
+instance of class extending -Java.lang.Thread- and implement the
+-public void run()- method. Threads are very convenient that way.
+
 
 However, there are some very important drawbacks of doing concurrency this way.
 *** Threads are expensive
-Because of the way threads work, there is non-trivial ammount of work to be done when threade is created. A stack has to be allocated for every new thread (default size is 512kb on JVM) and a number of system calls needs to be made (JVM uses platform specific threads). Generally, creating new threads is considered expensive.
+Because of the way threads work, there is non-trivial amount of work
+to be done when thread is created. A stack has to be allocated for
+every new thread (default size is 512kB on JVM) and a number of system
+calls needs to be made (JVM uses platform specific
+threads). Generally, creating new threads is considered expensive.
 
-What this means, is that one shouldn't create threads dynamically, everytime a concurrent execution is required. Common aproach instead is creating a number of threads ahead of time and reusing them (this pattern is sometimes called thread pool). While this is reasonable option, this add a nontrivial complexity to the application and basically means that threads don't scale (we are limited by the number of threads in thread pool).
+
+What this means, is that one shouldn't create threads dynamically,
+every time a concurrent execution is required. Common approach instead
+is creating a number of threads ahead of time and reusing them (this
+pattern is sometimes called thread pool). While this is reasonable
+option, this add a nontrivial complexity to the application and
+basically means that threads don't scale (we are limited by the number
+of threads in thread pool).
+
 *** Thread based concurrency is hard
-Threads can be used to a reasonable level of success in some programs. Especially programs that use threads for processing operations that don't need to communicate between each other nor share same resources(for example web servers, build tools etc). Threads then serve as sort of a cheaper processes.
+Threads can be used to a reasonable level of success in some
+programs. Especially programs that use threads for processing
+operations that don't need to communicate between each other nor share
+same resources(for example web servers, build tools etc). Threads then
+serve as sort of a cheaper processes.
 
-However when dealing with shared resources and shared state, threads become really hard to use. Because threads share memory heap, it is very hard to keep data consistency and because threads can use all the resources on the heap, deadlocks can occur very easily and it is not a trivial exercise to eliminate all the bugs that can come from such model[fn::http://www.eecs.berkeley.edu/Pubs/TechRpts/2006/EECS-2006-1.pdf].
+
+However when dealing with shared resources and shared state, threads
+become really hard to use. Because threads share memory heap, it is
+very hard to keep data consistency and because threads can use all the
+resources on the heap, deadlocks can occur very easily and it is not a
+trivial exercise to eliminate all the bugs that can come from such
+model[fn::http://www.eecs.berkeley.edu/Pubs/TechRpts/2006/EECS-2006-1.pdf].
+
 ** Actor model overview
-Actor model is a model of computation, designed to deal with problems in a highly concurrent, asynchronous and fault tolerant fashion. It was first published by Carl Hewitt in 1973 [fn::Carl Hewitt; Peter Bishop and Richard Steiger (1973). A Universal Modular Actor Formalism for Artificial Intelligence. IJCAI.]. Actor model is widely used in systems where reliability, avalibility, scalability and concurrency are important features. Probably the most popular actor implementation today - the Erlang OTP framework, has been used in many software projects and services. Here is a few examples of Erlang applications:
+Actor model is a model of computation, designed to deal with problems
+in a highly concurrent, asynchronous and fault tolerant fashion. It
+was first published by Carl Hewitt in 1973 [fn::Carl Hewitt; Peter
+Bishop and Richard Steiger (1973). A Universal Modular Actor Formalism
+for Artificial Intelligence. IJCAI.]. Actor model is widely used in
+systems where reliability, availability, Scalability and concurrency
+are important features. Probably the most popular actor implementation
+today - the Erlang OTP framework, has been used in many software
+projects and services. Here is a few examples of Erlang applications:
+
  - nosql databases: CouchDB, Riak
  - message queues: RabbitMQ
  - web servers: YAWS
-And as the number of cores per processors continue to increase, it is reasonable to expect that the demand for tools that promise easier handling of concurrency will increase aswell. 
+And as the number of cores per processors continue to increase, it is
+reasonable to expect that the demand for tools that promise easier
+handling of concurrency will increase as well.
+
 ** Fundamental concepts
 In actor model, computation is processed using Actors. By Actor we mean an entity which can:
   - send asynchroneous messages to other actors (sender doesn't wait on reply from the receiver)
   - receive messages from other actors
   - create new actors
-  - change it's behaviour dynamically
+  - change it's behavior dynamically
 
-Every actor has an inbox, into which system queues messages sent to given actor. Actor processes messages one at a time. When thinking about actor, it helps to imagine it as a kind of lightweight thread (all actors in the system run at the same time), which is very cheap to maintain, create and destroy.
+Every actor has an inbox, into which system queues messages sent to
+given actor. Actor processes messages one at a time. When thinking
+about actor, it helps to imagine it as a kind of lightweight thread
+(all actors in the system run at the same time), which is very cheap
+to maintain, create and destroy.
 
-Computation is then split into series of operations that are executed by different actors. Results of those operations are then sent around via messages. It is important to note that there can be many instantions of given actor type. It is therefore important to deisgn system in such a way that actors don't affect each other (for example by holding locks). 
 
-For example, let's say we want to create a service that writes logging data into a log file. We could easily create a function in every actor that opens a file, appends the log message and closes the file. That would be problematic, though, because multiple actors might want to write at the same time. We could use locks, to make sure that only 1 write is being issued at a time. However, that would be very inefficient, because esentially only 1 actor in the system would be allowed to run at a time, while other actors would wait for the resource to become avalible. What we could do instead, is make another actor (lets call it logger), that would hold the reference to our log file and everytime an actor would write into the log file, it would send the log message into the logger, which would handle the actual write. Please not that there is no need for locking with this approach. Even if two actors try to write at the same time, it only means that two messages are sent, and actor model guarantees that messages are processed sequentially and only 1 message is processed at a time.
+Computation is then split into series of operations that are executed
+by different actors. Results of those operations are then sent around
+via messages. It is important to note that there can be many
+instances of given actor type. It is therefore important to design
+system in such a way that actors don't affect each other (for example
+by holding locks).
 
-This approach might look similar to object oriented programming, where we create a wrapper around a resource to encapsulate the details of the implementation (such as locking). But it's important to remember, that the messages in Actor model are asynchroneous. Which means that actor just sends the message and doesn't wait on response, it just keeps working.
 
-Another important property of actors is that they are very cheap to create (In akka, overhead for creating an actor is only about 600 bytes). This allows system to generate actors when needed, for example, we could have a web server, that generates a new actor on demand for every incomming connection.
+For example, let's say we want to create a service that writes logging
+data into a log file. We could easily create a function in every actor
+that opens a file, appends the log message and closes the file. That
+would be problematic, though, because multiple actors might want to
+write at the same time. We could use locks, to make sure that only 1
+write is being issued at a time. However, that would be very
+inefficient, because essentially only 1 actor in the system would be
+allowed to run at a time, while other actors would wait for the
+resource to become available. What we could do instead, is make another
+actor (lets call it logger), that would hold the reference to our log
+file and every time an actor would write into the log file, it would
+send the log message into the logger, which would handle the actual
+write. Please not that there is no need for locking with this
+approach. Even if two actors try to write at the same time, it only
+means that two messages are sent, and actor model guarantees that
+messages are processed sequentially and only 1 message is processed at
+a time.
+
+
+This approach might look similar to object oriented programming, where
+we create a wrapper around a resource to encapsulate the details of
+the implementation (such as locking). But it's important to remember,
+that the messages in Actor model are asynchronous. Which means that
+actor just sends the message and doesn't wait on response, it just
+keeps working.
+
+
+Another important property of actors is that they are very cheap to
+create (In Akka, overhead for creating an actor is only about 600
+bytes). This allows system to generate actors when needed, for
+example, we could have a web server, that generates a new actor on
+demand for every incoming connection.
+
 ** Enter Akka
-Every actor model implementation is different from others. For example, just for Scala programming languages there are 4 different implementations as far as i know (Lift actors, Scala Actors from standard library, Scalaz actors and Akka actors). I decided to use Akka actors, because they come as part of a great library and support remoting, which saved me a lot of work. Akka actors also support Erlang-like fault tolerance and -ask- kind of messaging, which is described below.
+Every actor model implementation is different from others. For
+example, just for Scala programming languages there are 4 different
+implementations as far as i know (Lift actors, Scala Actors from
+standard library, Scalaz actors and Akka actors). I decided to use
+Akka actors, because they come as part of a great library and support
+remote communication between JVMs, which saved me a lot of work. Akka
+actors also support Erlang-like fault tolerance and -ask- kind of
+messaging, which is described below.
+
 *** Actors
-In Akka, actor can simply be created by extending Actor trait and implementing a receive method. In this method user maps different kind of messages to functions for processing given message. It's important to note, that Akka actors don't support any kind of scanning of the inbox (some implementations allow for for example checking the length of inbox etc.)
+In Akka, actor can simply be created by extending Actor trait and
+implementing a receive method. In this method user maps different kind
+of messages to functions for processing given message. It's important
+to note, that Akka actors don't support any kind of scanning of the
+inbox (some implementations allow for example checking the length
+of inbox etc.)
 
-Inside every actor, a self variable is present, containing the important information about state of an actor. For example, one can obtain ActorRef(described below) to sender actor during message processing.
 
-We can then instantiate the actor by calling the factory method actorOf. By calling this method, the user only get instance of class ActorRef. That intance represents the actor in the system, but does not contain the actor. This is so that the state of the actor can never be compromised, because user can never get reference to the actual actor. ActorRef supports methods ! (pronounced bang) and ? (pronounced ask).
+Inside every actor, a self variable is present, containing the
+important information about state of an actor. For example, one can
+obtain ActorRef(described below) to sender actor during message
+processing.
 
-The bang method represent a simple 'fire and forget' kind of messaging, while the ask method creates an Future object, which has hooks into which user can insert callback methods, which are called when the Future is completed. This approach eliminates the need of blocking and waiting until the receiving actor reads and responses to our message.
 
-The ActorRef instance is completely thread safe, can be passed around in messages and can even be serialized and sent via network to different jvm and will still refer to the original actor.
-*** Remoting
-Akka also supports remote actors. Thanks to the propertis of ActorRef described above, one can run Akka systems in multiple JVMs and simply by sending ActorRefs around one is able to communicate with remote actors using the standart actor semantics (! and ? methods).
+We can then instantiate the actor by calling the factory method
+actorOf. By calling this method, the user only get instance of class
+ActorRef. That instance represents the actor in the system, but does
+not contain the actor. This is so that the state of the actor can
+never be compromised, because user can never get reference to the
+actual actor. ActorRef supports methods ! (pronounced bang) and ?
+(pronounced ask).
 
-Akka actors can also be registered by string name in so called actor repository, from which one can withdraw them remotely. For example in Specus, there is an actor registered in the server under name that is know to nodes. What that means, is that when a node is booted up, it can get a reference to the registered server actor and being communication.
+
+The bang method represent a simple 'fire and forget' kind of
+messaging, while the ask method creates an Future object, which has
+hooks into which user can insert callback methods, which are called
+when the Future is completed. This approach eliminates the need of
+blocking and waiting until the receiving actor reads and responses to
+our message.
+
+
+The ActorRef instance is completely thread safe, can be passed around
+in messages and can even be serialized and sent via network to
+different JVM and will still refer to the original actor.
+
+*** Remote access
+Akka also supports remote actors. Thanks to the properties of ActorRef
+described above, one can run Akka systems in multiple JVMs and simply
+by sending ActorRefs around one is able to communicate with remote
+actors using the standard actor semantics (! and ? methods).
+
+
+Akka actors can also be registered by string name in so called actor
+repository, from which one can withdraw them remotely. For example in
+Specus, there is an actor registered in the server under name that is
+know to nodes. What that means, is that when a node is booted up, it
+can get a reference to the registered server actor and being
+communication.
+
 *** Fault tolerance
-In order to achieve fault tolerance, a supervision scheme is implemented. Convetional programming methodology deals with error using 'defensive programming'. Basically, programmer is trying to check input data for all possible inconsistencies and only when all tests pass, data are allowed to be further processed.
+In order to achieve fault tolerance, a supervision scheme is
+implemented. Conventional programming methodology deals with error
+using 'defensive programming'. Basically, programmer is trying to
+check input data for all possible inconsistencies and only when all
+tests pass, data are allowed to be further processed.
 
-On the other hand, Akka accepts the fact that no code is bug-less, so instead of trying to catch all the invalid cases, it encourages programmers to embrace the failure, and focus on recovery from failure. Every time an exception is thrown in Actor, it gets restarded. By that it's meant that the new, fresh instance of Actor is created and injected into system in such a manner that all the ActorRefs to the original actor are valid and point to the newly created actor. Actor can implement lifecycle methods like preRestart and postRestart in order to do save it's state and do anything that needs to be done. The message causing the failure is not processed again, however rest of the mailbox with unprcessed messages is reused for the new actor.
 
-In addiotion to that, Actors can be asigned into tree-like structures where every node can have at most 1 supervisor and can supervise 0 or more actors. When actor is about to fail and is being restarted, a message is sent to the supervisor, so that it can decide what to do. It can decide whether he wants to restart just the failing actor, or all the actors he oversees (it can sometimes be useful).
+On the other hand, Akka accepts the fact that no code is bug-less, so
+instead of trying to catch all the invalid cases, it encourages
+programmers to embrace the failure, and focus on recovery from
+failure. Every time an exception is thrown in Actor, it gets
+restarted. By that it's meant that the new, fresh instance of Actor is
+created and injected into system in such a manner that all the
+ActorRefs to the original actor are valid and point to the newly
+created actor. Actor can implement life cycle methods like preRestart
+and postRestart in order to do save it's state and do anything that
+needs to be done. The message causing the failure is not processed
+again, however rest of the mailbox with unprocessed messages is reused
+for the new actor.
+
+
+In addition to that, Actors can be assigned into tree-like structures
+where every node can have at most 1 supervisor and can supervise 0 or
+more actors. When actor is about to fail and is being restarted, a
+message is sent to the supervisor, so that it can decide what to
+do. It can decide whether he wants to restart just the failing actor,
+or all the actors he oversees (it can sometimes be useful).
+
 
 
 * Design and implementation
-In this chapter, I will discuss the relevant information about Minecraft and it's architecture needed in order to write a server. Then I will describe design choices I took when designing Specus and talk about libraries and technologies I used for implementation of Specus.
-** Minecraft 
-Minecraft uses client - server architecture for multiplayer support. 1 client can be connected to only 1 server. Minecraft clients communicate with server using TCP protocol. Data sent are formatted using logical packets. There is a number of different packet formats. Every packet is prefixed with unsigned byte which indicates the type of packet, which ultimatelly determines how the rest of stream should be parsed.
+In this chapter, I will discuss the relevant information about
+Minecraft and it's architecture needed in order to write a
+server. Then I will describe design choices I took when designing
+Specus and talk about libraries and technologies I used for
+implementation of Specus.
 
-Because Minecraft is still being developed, there are usually some changes in protocol and packet types when versions change. At the time of writing this thesis, minecraft version is 1.1.
+** Minecraft
+Minecraft uses client - server architecture for multiplayer support. 1
+client can be connected to only 1 server. Minecraft clients
+communicate with server using TCP protocol. Data sent are formatted
+using logical packets. There is a number of different packet
+formats. Every packet is prefixed with unsigned byte which indicates
+the type of packet, which ultimately determines how the rest of
+stream should be parsed.
+
+
+Because Minecraft is still being developed, there are usually some
+changes in protocol and packet types when versions change. At the time
+of writing this thesis, Minecraft version is 1.1.
+
 
 *** Data types
-For the most part, minecraft packets consists of only few well defined data types. Some packets however use ad-hoc formatted datastructures. Following is the list of packet type commonly used in protocol:
+For the most part, Minecraft packets consists of only few well defined
+data types. Some packets however use ad-hoc formatted
+data structures. Following is the list of packet type commonly used in
+protocol:
+
 
 - integer fields - signed numbers using two's complement encoding
    - byte: 1 byte long, -128 to 127
    - short: 2 bytes long, -32768 to 32767
-   - int: 4 bytes long, -2147483648 to 2147483647 
+   - int: 4 bytes long, -2147483648 to 2147483647
    - long: 8 bytes long, -9223372036854775808 to 9223372036854775807
 - decimal number fields
-   - float: 4 bytes long, range compatible with java float
-   - double: 8 bytes long, range compatible with java double
+   - float: 4 bytes long, range compatible with Java float
+   - double: 8 bytes long, range compatible with Java double
 - string field: UCS-2 encoded string, prefixed with short (as described above) which signalizes the length of the string
 - metadata field: described below
 *** Metadata field
-Metadata is a format introduced by Minecraft in order to efficiently (space wise) encode and decode triplets of data (identifier of piece of data, datatype and value itself) of variable length. Every triplet begins with a byte. Top 3 bits (with =0xE0= mask) of the byte encode the datatype of value while the bottom 5 bits (mask =0x1F=) encode the id of entity. The value itself depends on the datatype and is parsed accordingly. If the byte value is 127 (=0xFF=), it means that there are no more data in metadata. The type of data that can be stored in metadata are:
+Metadata is a format introduced by Minecraft in order to efficiently
+(space wise) encode and decode triplets of data (identifier of piece
+of data, data type and value itself) of variable length. Every triplet
+begins with a byte. Top 3 bits (with =0xE0= mask) of the byte encode
+the data type of value while the bottom 5 bits (mask =0x1F=) encode the
+id of entity. The value itself depends on the data type and is parsed
+accordingly. If the byte value is 127 (=0xFF=), it means that there
+are no more data in metadata. The type of data that can be stored in
+metadata are:
+
 |----------+----------------------------|
 | top bits | datatype                   |
 |----------+----------------------------|
@@ -596,118 +1016,353 @@ Metadata is a format introduced by Minecraft in order to efficiently (space wise
 |----------+----------------------------|
 
 ** Design of Specus
-When designing Specus, I focused mostly on flexibility and extensibility. It should also be possible to distribute the workload on multiple computers. Minecraft client is built to be connected to 1 server. So i decided to split Specus into multiple parts. There is the server, which is the only part of the Specus that clients can see and there are worker nodes, which are the parts of the system that do the actual work.
-*** Api and implementation
-Because Specus was designed to be very extensible, it was important to split both server and node projects into two. API and actual implementation. API contains all the stuff that needed to be avalible for plugins while implementation contains the mechanisms that are not useful to plugins. Also, because node and server communicate together, i decided to create another project, called =common api=, which contains classes that are needed by both. 
+When designing Specus, I focused mostly on flexibility and
+extensibility. It should also be possible to distribute the workload
+on multiple computers. Minecraft client is built to be connected to 1
+server. So i decided to split Specus into multiple parts. There is the
+server, which is the only part of the Specus that clients can see and
+there are worker nodes, which are the parts of the system that do the
+actual work.
 
-It contains for example plugin system api (described below), it contains metadata format, it contains =Packet= superclass that all packets need to extend and so on.
+*** API and implementation
+Because Specus was designed to be very extensible, it was important to
+split both server and node projects into two. API and actual
+implementation. API contains all the stuff that needed to be available
+for plugins while implementation contains the mechanisms that are not
+useful to plugins. Also, because node and server communicate together,
+i decided to create another project, called =common api=, which
+contains classes that are needed by both.
+
+
+It contains for example plugin system API (described below), it
+contains metadata format, it contains =Packet= super class that all
+packets need to extend and so on.
+
 *** Server
-Only job of server is to accept new clients, read and parse data into Packet case classes and sent them to nodes. It also knows how to encode Packet data from case classes and write them into TCP connection. Process of parsing and encoding is further described in chapter abotu Scala. It also knows how to send a message to any given node and it accepts messages from nodes.
- 
-If a new clients connects to the server, a new unique id is generated for the client. That id is only thing any other component of the system needs to know in order to be write to the client connection. The generated id is valid until the connection closed or server shutdown, whichever happens to happen first.
-`
-When TCP data arrive on the server, first byte is read. It is then checked, whether any codec is for given byte is registered (remember, every packet type is prefixed with id byte). If a codec is found, rest of the received data is given to that codec for parsing and new instance of packet message is received by chosen codec. That message is then sent, along with id of client to one of the connected nodes.
+Only job of server is to accept new clients, read and parse data into
+Packet case classes and sent them to nodes. It also knows how to
+encode Packet data from case classes and write them into TCP
+connection. Process of parsing and encoding is further described in
+chapter about Scala. It also knows how to send a message to any given
+node and it accepts messages from nodes.
 
-When one of the nodes wants to write a packet message to client, it simply sends =WriteRequest= message, which contains id of client and instance of packet and server will handle the writing for them. Therefore, nodes doesn't need to know anything about actual parsing or encoding packets, which makes it a lot easier to implement nodes, as it only deals with regular scala (case) classes.
 
-If a connection is closed, server simply removes the id of client from it's internals and sends a notification to a random node, so that it can clean up after the user.
+If a new clients connects to the server, a new unique id is generated
+for the client. That id is only thing any other component of the
+system needs to know in order to be write to the client
+connection. The generated id is valid until the connection closed or
+server shutdown, whichever happens to happen first.
+
+
+When TCP data arrive on the server, first byte is read. It is then
+checked, whether any codec is for given byte is registered (remember,
+every packet type is prefixed with id byte). If a codec is found, rest
+of the received data is given to that codec for parsing and new
+instance of packet message is received by chosen codec. That message
+is then sent, along with id of client to one of the connected nodes.
+
+
+When one of the nodes wants to write a packet message to client, it
+simply sends =WriteRequest= message, which contains id of client and
+instance of packet and server will handle the writing for
+them. Therefore, nodes doesn't need to know anything about actual
+parsing or encoding packets, which makes it a lot easier to implement
+nodes, as it only deals with regular Scala (case) classes.
+
+
+If a connection is closed, server simply removes the id of client from
+it's internals and sends a notification to a random node, so that it
+can clean up after the user.
+
 *** Node
-All the actual business logic is done in nodes. Nodes are independent JVMs runing node code and are connected using remote actors described in the 'Actor' part of the paper. When a node machine is started, a message is sent to the server upon which server adds the node to the set of avalible nodes and starts sending messages to it.
+All the actual business logic is done in nodes. Nodes are independent
+JVMs running node code and are connected using remote actors described
+in the 'Actor' part of the paper. When a node machine is started, a
+message is sent to the server upon which server adds the node to the
+set of available nodes and starts sending messages to it.
 
-In nodes, message processing should be done either in stateless fashion, or the state should be persistet in some sort of database as the messages are sent randomly to the nodes. In order to do do that, I use Redis database (which is described below). 
 
-Node plugins can contain so called =processors=. Processor is a class that can consume a packet and somehow process it. Each packet can be processed by multiple processors and they are not processed in any particular order. Processors also need to be able to provide a sequence of all the packets they are able to process so that the packets are only sent to the processors that actually know how to use them, thus reducing the overhead compared to scenario where all packets are sent to all processes. 
-*** IO handling
+In nodes, message processing should be done either in stateless
+fashion, or the state should be persistent in some sort of database as
+the messages are sent randomly to the nodes. In order to do that, I
+use Redis database (which is described below).
+
+
+Node plugins can contain so called =processors=. Processor is a class
+that can consume a packet and somehow process it. Each packet can be
+processed by multiple processors and they are not processed in any
+particular order. Processors also need to be able to provide a
+sequence of all the packets they are able to process so that the
+packets are only sent to the processors that actually know how to use
+them, thus reducing the overhead compared to scenario where all
+packets are sent to all processes.
+
 ** Plugin system
-In this subsection I will talk about general design of plugin system implemented in specus, then I will overview all the implementation details. At the end I will talk about 3 different plugins I implemented as proof-of-concept.
+In this subsection I will talk about general design of plugin system
+implemented in Specus, then I will overview all the implementation
+details. At the end I will talk about 3 different plugins I
+implemented as proof-of-concept.
+
 *** General design
-As described above, Specus aims for maximal extensibility. That's why it has been designed to be very plugin friendly from the very beginning. By itself, Specus contains only basic functionality related to generic packet parsing, plugin loading and communication between server and nodes. Everything else is implemented in plugins, including entire Minecraft logic.
+As described above, Specus aims for maximal extensibility. That's why
+it has been designed to be very plugin friendly from the very
+beginning. By itself, Specus contains only basic functionality related
+to generic packet parsing, plugin loading and communication between
+server and nodes. Everything else is implemented in plugins, 
+including entire Minecraft logic.
 
 
-Much like specus itself, plugins too are meant to be separated into two parts. Server part and node part. In server part, plugins can declare packets and codecs for those packets. They can also register for receiving different kind of messages which indicate what events are happening in the system. 
+Much like Specus itself, plugins too are meant to be separated into
+two parts. Server part and node part. In server part, plugins can
+declare packets and codecs for those packets. They can also register
+for receiving different kind of messages which indicate what events
+are happening in the system.
 
-On the other hand, node part of the plugin usually consits of an Actor, or system of Actors, that are registered for different types of Packets parsed by server part of plugin. 
 
-Plugin is basically just a jar file which contains a plugin descriptor on predefined class path. Plugin descriptor is a simple file containing a JSON encoded information about plugin, such as it's dependencies, it's version, plugin identifier (string representation of plugin, usually same as the java package in which the code of plugin is placed), author of the plugin and most importantly the entry point class. It is kept inside the jar file in order to make the handling of plugins as simple as possible. Plugin is expected to communicate with the system using messages (as described in Actor part of this paper).
+On the other hand, node part of the plugin usually consists of an
+Actor, or system of Actors, that are registered for different types of
+Packets parsed by server part of plugin.
 
-Entry point class contains additional information required for running the plugin. By default, it can contain a entry point Actor class, which is instantiated when the plugin is loaded and into which the system messages are sent. It can also contain a list of classes, which the particular plugin is interested in. Only those messages would be sent to Actor. Because the plugin api is designed to be reused in both server and node, user of the api can define entry point class as she wishes. For example, in server subproject the entry point contains list of packets and codecs for packets. On the other hand in node code the entry point contains processors for packets.
 
-It is important to note that all the plugin jars must be added to classpath when the user of plugin api is started.
+Plugin is basically just a jar file which contains a plugin descriptor
+on predefined class path. Plugin descriptor is a simple file
+containing a JSON encoded information about plugin, such as it's
+dependencies, it's version, plugin identifier (string representation
+of plugin, usually same as the Java package in which the code of
+plugin is placed), author of the plugin and most importantly the entry
+point class. It is kept inside the jar file in order to make the
+handling of plugins as simple as possible. Plugin is expected to
+communicate with the system using messages (as described in Actor part
+of this paper).
+
+
+Entry point class contains additional information required for running
+the plugin. By default, it can contain a entry point Actor class,
+which is instantiated when the plugin is loaded and into which the
+system messages are sent. It can also contain a list of classes, which
+the particular plugin is interested in. Only those messages would be
+sent to Actor. Because the plugin API is designed to be reused in both
+server and node, user of the API can define entry point class as she
+wishes. For example, in server sub project the entry point contains
+list of packets and codecs for packets. On the other hand in node code
+the entry point contains processors for packets.
+
+
+It is important to note that all the plugin jars must be added to
+classpath when the user of plugin API is started.
+
 
 *** Implementation
-In common api, there is abstract class SimplePluginManager through which all the plugin loading is done. It contains method =bootupPlugins= which takes a =File=, which represents directory containing plugins. First it attempts to  parse plugin descriptor from each .jar file it finds in plugin directory. If everything goes well, we now have a set of all plugin descriptors which contain plugin version and it's dependencies, which means we can now either validate that all dependencies are either fulfilled or there is something missing. 
+In common API, there is abstract class SimplePluginManager through
+which all the plugin loading is done. It contains method
+=bootupPlugins= which takes a =File=, which represents directory
+containing plugins. First it attempts to  parse plugin descriptor from
+each .jar file it finds in plugin directory. If everything goes well,
+we now have a set of all plugin descriptors which contain plugin
+version and it's dependencies, which means we can now either validate
+that all dependencies are either fulfilled or there is something
+missing.
 
-Once all the dependencies are checked, entry point clesses are instantiated and all the entry point Actors are created and registered for messages they are interested in (as defined in entry point class).
 
-After that a user defined =postDependencyCheck= method is created, which could do anything that needs to be done. For example, in node part of Specus, this is where minecraft maps are pregenerated. In server part this is where we can for example sent dependencies to the plugin (if plugin needs some). When this method returns, plugins are considered ready for work. If at any point an error occurs, whole server shuts down as it makes no sense trying to recover from these errors.
+Once all the dependencies are checked, entry point classes are
+instantiated and all the entry point Actors are created and registered
+for messages they are interested in (as defined in entry point class).
+
+
+After that a user defined =postDependencyCheck= method is created,
+which could do anything that needs to be done. For example, in node
+part of Specus, this is where Minecraft maps are generated in
+advance. In server part this is where we can for example sent
+dependencies to the plugin (if plugin needs some). When this method
+returns, plugins are considered ready for work. If at any point an
+error occurs, whole server shuts down as it makes no sense trying to
+recover from these errors.
+
 *** Communication among plugins
-It is very important to have a plugin system to support very easy communication among plugins. That is so that a plugin can use functionality already implemented by others. 
+It is very important to have a plugin system to support very easy
+communication among plugins. That is so that a plugin can use
+functionality already implemented by others.
 
-As mentioned above, in plugin descriptor there is a field specifing plugin identifier. This is used to obtain reference from =Plugin Manager=, which is passed to plugin during initialization phase. =Plugin Manager= should always have the correct reference avalible, as the plugin system already verified that all plugin dependencies are avalible at this point. The received reference is simple =ActorRef=, as specified in Actor part of this paper, thus alowing user to simply send messages to it.
+
+As mentioned above, in plugin descriptor there is a field specifying
+plugin identifier. This is used to obtain reference from =Plugin
+Manager=, which is passed to plugin during initialization
+phase. =Plugin Manager= should always have the correct reference
+available, as the plugin system already verified that all plugin
+dependencies are available at this point. The received reference is
+simple =ActorRef=, as specified in Actor part of this paper, thus
+allowing user to simply send messages to it.
+
 *** Stats
-Stats was first plugin I implemented in Specus. I needed a way to track connected users when debugging the server and later I added a feature that collected all the packets sent and received by processor per client.
+Stats was first plugin I implemented in Specus. I needed a way to
+track connected users when debugging the server and later I added a
+feature that collected all the packets sent and received by processor
+per client.
 
-The way it is implemented is quite simple. System broadcasts messages when a new client is {dis,}connected and when a packet is sent or received. Stats plugin waits for these messages and updates it's state accordingly. It contains a counter of connected clients and a map containing list of all sent and received classes of packets per user. This map is a immutable persistent datastructure, so when other plugin ask for this data, it can be very efficiently sent (basically it just sents a referrence to the map) to it without worrying about somoneone mutating it and thus desotrying the consistency of data.
+
+The way it is implemented is quite simple. System broadcasts messages
+when a new client is {dis,}connected and when a packet is sent or
+received. Stats plugin waits for these messages and updates it's state
+accordingly. It contains a counter of connected clients and a map
+containing list of all sent and received classes of packets per
+user. This map is a immutable persistent data structure, so when other
+plugin ask for this data, it can be very efficiently sent (basically
+it just sends a reference to the map) to it without worrying about
+someone mutating it and thus destroying the consistency of data.
+
 *** Http frontend
-For a while, the =println= approach of displaying information from stats plugin was ok. But i decided later i needed something more readable. So i created Http frontend plugin. It's only purpose is to display information gathered by stats plugin. 
+For a while, the =println= approach of displaying information from
+stats plugin was ok. But i decided later i needed something more
+readable. So i created Http frontend plugin. It's only purpose is to
+display information gathered by stats plugin.
 
-It uses Jetty embedded http server which listens on 9090 port. When a new http request is issued to that port for =/= resource, it sends message to the stats plugin for most up-to-date data and returns them formatted for easier reading. It should go without saying that this kind of display is a lot easier to read than looking for text in log files of the server.
 
-Also, the plan was to make full featured administration interface using this plugin, which is very possible, but due to time constraints I was not able to implement this feature.
+It uses Jetty embedded http server which listens on 9090 port. When a
+new http request is issued to that port for =/= resource, it sends
+message to the stats plugin for most up-to-date data and returns them
+formatted for easier reading. It should go without saying that this
+kind of display is a lot easier to read than looking for text in log
+files of the server.
+
+
+Also, the plan was to make full featured administration interface
+using this plugin, which is very possible, but due to time constraints
+I was not able to implement this feature.
+
 *** Minecraft
-And last but not at all least, the Minecraft plugin. This plugin contains everything that is specific to Minecraft. The plugin itself is split into 3 parts: 
-**** Common api
-Common api is the part of the project that defines all the different packets that can be sent or received by client. It was required to put these into separate jar, so that they can be easily reused. Also, if there was another plugin that would want to enhance functionality of minecraft plugin, or simply just invoke it's own action when some of the packets defined by minecraft is received, this would be the jar to use.
+And last but not at all least, the Minecraft plugin. This plugin
+contains everything that is specific to Minecraft. The plugin itself
+is split into 3 parts:
+
+**** Common API A
+Common API is the part of the project that defines all the different
+packets that can be sent or received by client. It was required to put
+these into separate jar, so that they can be easily reused. Also, if
+there was another plugin that would want to enhance functionality of
+Minecraft plugin, or simply just invoke it's own action when some of
+the packets defined by Minecraft is received, this would be the jar to
+use.
+
 **** Server
-In a server part of the plugin, there are definitions of all the known packets that Minecraft supports, aswell as their codecs. Now, most of these codecs are using generic codec described in this paper. However, some of the packets use fields that are unique to them so i didn't feel necesity to add their encoding and decoding functions into generic codec and deided to implemenet their codecs by hand. 
+In a server part of the plugin, there are definitions of all the known
+packets that Minecraft supports, as well as their codecs. Now, most of
+these codecs are using generic codec described in this paper. However,
+some of the packets use fields that are unique to them so i didn't
+feel necessity to add their encoding and decoding functions into
+generic codec and decided to implemenet their codecs by hand.
+
 
 **** Node
-Node part of the plugin is where all the minecraft logic is implemented. Basically, there is 1 actor created per packet which handles all the processing that needs to be done for given packet. Classes of these actors are then extracted from the plugin and instantiated in the server, thus giving server the control over them.
+Node part of the plugin is where all the Minecraft logic is
+implemented. Basically, there is 1 actor created per packet which
+handles all the processing that needs to be done for given
+packet. Classes of these actors are then extracted from the plugin and
+instantiated in the server, thus giving server the control over them.
+
+As it turned out, it was quite simple to implement Minecraft
+functionality in Specus. I think that for the most part, It was thanks
+to the usage of Actors. It is simple to reason about a system once we
+break it down into message passing between entities that don't depend
+on each other. It is also due to the fact that Minecraft the game is
+not very complicated, especially considering the goals i chose. But
+that is ok, as the main purpose of this paper and this project was to
+get familiar with Actor systems, Scala and learning how to write an
+extensible server.
 
 
+** IO
+In order to create a simple to use system, it is important to create
+right abstractions of IO operations and entities. In Specus, every
+connected client is represented by session id. Session id is a simple
+token, that is passed around when message is read or being sent. This
+token is created when a new client connects and is associated with
+Session object.
 
-As it turned out, it was quite simple to implement minecraft functionality in Specus. I think that for the most part, It was thanks to the usage of Actors. It is simple to reason about a system once we break it down into message passing between entities that don't depend on each other. It is also due to the fact that minecraft the game is not very complicated, especially considering the goals i chose. But that is ok, as the main purpose of this paper and this project was to get familiar with Actor systems, Scala and learning how to write an extensible server.
 
-** IO 
-In order to create a simple to use system, it is important to create right abstractions of IO operations and entities. In Specus, every connected client is represented by session id. Session id is a simple token, that is passed around when message is read or being sent. This token is created when a new client connects and is associated with Session object. 
+Session object is abstraction, which knows how to write objects to
+connection with client and how to close the connection. These objects
+are stored in SessionManager and should never be visible to anyone
+else. When server needs to write some data into a connection, it
+should ask SessionManager by passing it a SessionId and data to be
+written.
 
-Session object is abstraction, which knows how to write objects to connection with client and how to close the connection. These objects are stored in SessionManager and should never be visible to anyone else. When server needs to write some data into a connection, it should ask SessionManager by passing it a SessionId and data to be written.
 
-What this means is that any part of the system doesn't need to know anything about how actual IO is performed. It only needs a Session id and data to be written. Session id tokens are immutable and serializable, so they can be easily passed around.
+What this means is that any part of the system doesn't need to know
+anything about how actual IO is performed. It only needs a Session id
+and data to be written. Session id tokens are immutable and
+serializable, so they can be easily passed around.
+
 
 Description of how actual io is implemented can be found below.
 ** Tools and reasoning behind them
 *** Redis
 Redis is a high performance key-value database that is used in Specus. Unlike most of key-value databases, it supports a number of different value types:
-- string: A binary safe string type, which can be used for storing binary data with efficient random access. In Specus it is used for storing minecraft map chunks.
+- string: A binary safe string type, which can be used for storing binary data with efficient random access. In Specus it is used for storing Minecraft map chunks.
 - hash: A hash map type, which is optimized for storing multiple key-value pairs. It is used for storing data about clients in Specus.
-- set: A typical set datastructure, used to store client ID's in specus.
-- sorted set: A typical set, except sorted. 
+- set: A typical set data structure, used to store client ID's in specus.
+- sorted set: A typical set, except sorted.
 - list: a linked list data structure.
-It is used to store state, so that it can always be accessed from any node. It uses scala-redis library, which is unfortunately synchronous. However, thanks to Akka actors it was very easy to wrap the synchronous client into an Actor to create asynchronous interface. 
+It is used to store state, so that it can always be accessed from any
+node. It uses Scala-redis library, which is unfortunately
+synchronous. However, thanks to Akka actors it was very easy to wrap
+the synchronous client into an Actor to create asynchronous interface.
+
 *** Netty
-Netty is high performance library for network IO. It's abstraction over java io functionality, which supports both TCP and UDP. In specus, it is configured to use asynchronous processing using nonblocking nio functionality. It uses 3 main components:
+Netty is high performance library for network IO. It's abstraction
+over Java io functionality, which supports both TCP and UDP. In
+Specus, it is configured to use asynchronous processing using
+non blocking nio functionality. It uses 3 main components:
+
 - specus encoder
 - specus decoder
 - specus handler
 
-Netty gets these components on start up and uses them transparently when they are needed. User doesn't have to deal with those, he simply writes and read objects from the channel. Both encoder and decoder use =Codec Repository= when looking up codecs for packet encoding and decoding. Codecs are loaded on start up from server plguins.
-**** Specus Encoder
-Specus encoder is a class that takes an object and using the =getClass= method looks up an appropriate codec for the class. It then uses the codec to encode the object into an array of bytes.
-**** Specus Decoder
-Specus decoder works similiary to specus encoder, except it looks up codecs by byte identifier (every packet type in Minecraft protocol is prefixed by id byte). Obviously, we asume that client always sends valid data. If it didn't we wouldn't be able to recovery from it anyway. 
-**** Specus Handler
-Specus handler contains callbacks which are invoked on ceratin events in the system.
-**** channelConnected
-This event is invoked when a new client is connected to the server. Netty allows user to set a so called =attachment=, which is avalible every time an event is invoked on specific channel. I use this oportunity to create a new =Session= and =Session ID= and then store the =Session ID= as an attachment. We also send =ClientConnected= notification to the plugin system, in case some plugin is interested (for example Stats plugin).
-**** channelClosed
-This event is invoked when a client connection is closed. We send notification to both plugin sytem and to node, so that it can clean up after client and then we destroy session associated with the client.
-**** writeRequest
-This event is invoked when data are being written into the channel. We just use this callback to sent notification to the plugin system.
-**** messageReceived
-This event is invoked when a packet is parsed by Netty. We need to associate it with the client somehow, so that we can respond it. Luckily, we saved =Session ID= as an attachment and we can withdraw it now. We sent the parsed packet and session id to both plugin system (so that it can be registered by stats plugin).
-    
+Netty gets these components on start up and uses them transparently
+when they are needed. User doesn't have to deal with those, he simply
+writes and read objects from the channel. Both encoder and decoder use
+=Codec Repository= when looking up codecs for packet encoding and
+decoding. Codecs are loaded on start up from server plugins.
 
+**** Specus Encoder
+Specus encoder is a class that takes an object and using the
+=getClass= method looks up an appropriate codec for the class. It then
+uses the codec to encode the object into an array of bytes.
+
+**** Specus Decoder
+Specus decoder works similarly to Specus encoder, except it looks up
+codecs by byte identifier (every packet type in Minecraft protocol is
+prefixed by id byte). Obviously, we assume that client always sends
+valid data. If it didn't we wouldn't be able to recovery from it
+anyway.
+
+**** Specus Handler
+Specus handler contains callbacks which are invoked on certain events
+in the system.
+
+**** channelConnected
+This event is invoked when a new client is connected to the
+server. Netty allows user to set a so called =attachment=, which is
+available every time an event is invoked on specific channel. I use
+this opportunity to create a new =Session= and =Session ID= and then
+store the =Session ID= as an attachment. We also send
+=ClientConnected= notification to the plugin system, in case some
+plugin is interested (for example Stats plugin).
+
+**** channelClosed
+This event is invoked when a client connection is closed. We send
+notification to both plugin system and to node, so that it can clean up
+after client and then we destroy session associated with the client.
+
+**** writeRequest
+This event is invoked when data are being written into the channel. We
+just use this callback to sent notification to the plugin system.
+
+**** messageReceived
+This event is invoked when a packet is parsed by Netty. We need to
+associate it with the client somehow, so that we can respond
+it. Luckily, we saved =Session ID= as an attachment and we can
+withdraw it now. We sent the parsed packet and session id to both
+plugin system (so that it can be registered by stats plugin).
 
 * Conclusion
 In the last part of this thesis, I will try to compare my
@@ -732,7 +1387,7 @@ period of time. While the locally stored map has it's advantages, such
 as speed and simplicity, it would be very hard to create distributed
 server using such approach because we would need to either synchronize
 between nodes or split the map chunks to different
-servers. Synchronization would add a lot of additional traffic and 
+servers. Synchronization would add a lot of additional traffic and
 complexity while splitting chunks would make for a very vulnerable
 design. If one server would have failed, entire part of map would
 become unavailable. Also, it would be very hard to coordinate events
@@ -746,7 +1401,7 @@ event.
 With Redis, we get the map synchronization for free. Redis can work in
 a cluster (experimental feature as of now) and from users point of view,
 we just write into a single node instance, but in the background Redis
-will automatically update all the instances in the cluster. 
+will automatically update all the instances in the cluster.
 
 A great advantage of Specus over official implementation is the design
 with extensions in mind. While there is unofficial and successful
@@ -808,7 +1463,7 @@ took care of all the low level encoding and decoding.
 *** Scala
 I have to say, I am very happy I chose Scala as programming language
 for this project. While there were some downsides to it which I will
-address below, the overall experience was very pleasant. 
+address below, the overall experience was very pleasant.
 
 Thanks to the functional style of coding, I didn't manage to find
 almost any bugs in most of the code during unit testing. That is, in
@@ -826,7 +1481,7 @@ Unfortunately, I managed to run into a compiler bug once which
 compiled source code into a byte code that would throw
 =InitializationException= upon invocation. I wasn't able to find the
 reason for the exception so I had to rewrite code in different
-fashion. 
+fashion.
 
 I got a chance to test how well Scala works with libraries designed
 for Java when using Netty library. I had no problems using it. The
@@ -839,7 +1494,7 @@ Akka is a very impressive piece of software. The only problem thing i
 don't like about the way they implemented the Actors is that user
 looses a great deal of type safety. Any Actor can be accessed only
 through =ActorRef=, which gives no indication of the type of an
-Actor. 
+Actor.
 
 It would be nice if there was some way to determine the instance of an
 actor or at least be able to check what types of messages can Actor
@@ -873,10 +1528,10 @@ current implementation.
 
 As far as the new features go, I would like to see web admin
 implemented using the HttpFrontned plugin. Also finishing the
-Minecraft implementation would be desired. 
+Minecraft implementation would be desired.
 
 One of the more interesting thing that would be nice to implement
-would be a DSL for Redis communication, that would abstract away the
+would be a DSL[fn::domain specific language] for Redis communication, that would abstract away the
 fact that the entire communication is done using =Future= monads. As
 of now, most of the Minecraft node is plagued with =map= and =flatMap=
 calls.
