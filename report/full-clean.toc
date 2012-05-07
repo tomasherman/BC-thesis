@@ -5,74 +5,74 @@
 \contentsline {subsubsection}{\numberline {3.1.1}Overview}{4}{subsubsection.3.1.1}
 \contentsline {subsubsection}{\numberline {3.1.2}Maps}{4}{subsubsection.3.1.2}
 \contentsline {subsubsection}{\numberline {3.1.3}Blocks and Items}{5}{subsubsection.3.1.3}
-\contentsline {subsubsection}{\numberline {3.1.4}Monsters \& health}{6}{subsubsection.3.1.4}
-\contentsline {subsubsection}{\numberline {3.1.5}Redstone}{7}{subsubsection.3.1.5}
-\contentsline {subsubsection}{\numberline {3.1.6}Nether}{7}{subsubsection.3.1.6}
-\contentsline {subsubsection}{\numberline {3.1.7}Goals of the game}{8}{subsubsection.3.1.7}
-\contentsline {subsubsection}{\numberline {3.1.8}Creative mode}{8}{subsubsection.3.1.8}
-\contentsline {subsubsection}{\numberline {3.1.9}Adventure maps}{8}{subsubsection.3.1.9}
-\contentsline {subsection}{\numberline {3.2}Extensions}{9}{subsection.3.2}
-\contentsline {subsubsection}{\numberline {3.2.1}Tekkit mod}{9}{subsubsection.3.2.1}
-\contentsline {subsubsection}{\numberline {3.2.2}Computercraft}{9}{subsubsection.3.2.2}
-\contentsline {subsubsection}{\numberline {3.2.3}Other extensions}{9}{subsubsection.3.2.3}
-\contentsline {section}{\numberline {4}Goals}{10}{section.4}
-\contentsline {subsection}{\numberline {4.1}Reasoning}{10}{subsection.4.1}
-\contentsline {subsubsection}{\numberline {4.1.1}Server related goals}{10}{subsubsection.4.1.1}
-\contentsline {subsubsection}{\numberline {4.1.2}Minecraft related goals}{11}{subsubsection.4.1.2}
-\contentsline {subsection}{\numberline {4.2}List summary of goals}{11}{subsection.4.2}
-\contentsline {section}{\numberline {5}Scala}{12}{section.5}
-\contentsline {subsection}{\numberline {5.1}Why Scala?}{12}{subsection.5.1}
-\contentsline {subsection}{\numberline {5.2}JVM}{13}{subsection.5.2}
-\contentsline {subsection}{\numberline {5.3}Quick Scala overview}{13}{subsection.5.3}
-\contentsline {subsection}{\numberline {5.4}Object oriented features}{14}{subsection.5.4}
-\contentsline {subsubsection}{\numberline {5.4.1}Traits}{14}{subsubsection.5.4.1}
-\contentsline {subsubsection}{\numberline {5.4.2}Objects}{14}{subsubsection.5.4.2}
-\contentsline {subsubsection}{\numberline {5.4.3}Classes}{15}{subsubsection.5.4.3}
-\contentsline {subsection}{\numberline {5.5}Functional and exotic features}{15}{subsection.5.5}
-\contentsline {subsubsection}{\numberline {5.5.1}Pattern matching}{15}{subsubsection.5.5.1}
-\contentsline {subsubsection}{\numberline {5.5.2}Vars and Vals}{15}{subsubsection.5.5.2}
-\contentsline {subsubsection}{\numberline {5.5.3}First class functions}{15}{subsubsection.5.5.3}
-\contentsline {subsubsection}{\numberline {5.5.4}Case classes}{16}{subsubsection.5.5.4}
-\contentsline {subsubsection}{\numberline {5.5.5}Collection API}{16}{subsubsection.5.5.5}
-\contentsline {subsection}{\numberline {5.6}Weaknesses}{17}{subsection.5.6}
-\contentsline {subsection}{\numberline {5.7}Example usage of case classes and first class functions}{17}{subsection.5.7}
-\contentsline {section}{\numberline {6}Actor model}{19}{section.6}
-\contentsline {subsection}{\numberline {6.1}The free lunch is over}{19}{subsection.6.1}
-\contentsline {subsection}{\numberline {6.2}Problems with conventional models of concurrency}{20}{subsection.6.2}
-\contentsline {subsubsection}{\numberline {6.2.1}Threads are expensive}{20}{subsubsection.6.2.1}
-\contentsline {subsubsection}{\numberline {6.2.2}Thread based concurrency is hard}{20}{subsubsection.6.2.2}
-\contentsline {subsection}{\numberline {6.3}Actor model overview}{21}{subsection.6.3}
-\contentsline {subsection}{\numberline {6.4}Fundamental concepts}{21}{subsection.6.4}
-\contentsline {subsection}{\numberline {6.5}Enter Akka}{22}{subsection.6.5}
+\contentsline {subsubsection}{\numberline {3.1.4}Monsters \& health}{7}{subsubsection.3.1.4}
+\contentsline {subsubsection}{\numberline {3.1.5}Redstone}{8}{subsubsection.3.1.5}
+\contentsline {subsubsection}{\numberline {3.1.6}Nether}{8}{subsubsection.3.1.6}
+\contentsline {subsubsection}{\numberline {3.1.7}Goals of the game}{9}{subsubsection.3.1.7}
+\contentsline {subsubsection}{\numberline {3.1.8}Creative mode}{9}{subsubsection.3.1.8}
+\contentsline {subsubsection}{\numberline {3.1.9}Adventure maps}{9}{subsubsection.3.1.9}
+\contentsline {subsection}{\numberline {3.2}Extensions}{10}{subsection.3.2}
+\contentsline {subsubsection}{\numberline {3.2.1}Tekkit mod}{10}{subsubsection.3.2.1}
+\contentsline {subsubsection}{\numberline {3.2.2}Computercraft}{10}{subsubsection.3.2.2}
+\contentsline {subsubsection}{\numberline {3.2.3}Other extensions}{10}{subsubsection.3.2.3}
+\contentsline {section}{\numberline {4}Goals}{11}{section.4}
+\contentsline {subsection}{\numberline {4.1}Reasoning}{11}{subsection.4.1}
+\contentsline {subsubsection}{\numberline {4.1.1}Server related goals}{11}{subsubsection.4.1.1}
+\contentsline {subsubsection}{\numberline {4.1.2}Minecraft related goals}{12}{subsubsection.4.1.2}
+\contentsline {subsection}{\numberline {4.2}List summary of goals}{12}{subsection.4.2}
+\contentsline {section}{\numberline {5}Scala}{13}{section.5}
+\contentsline {subsection}{\numberline {5.1}Why Scala?}{13}{subsection.5.1}
+\contentsline {subsection}{\numberline {5.2}JVM}{14}{subsection.5.2}
+\contentsline {subsection}{\numberline {5.3}Quick Scala overview}{14}{subsection.5.3}
+\contentsline {subsection}{\numberline {5.4}Object oriented features}{15}{subsection.5.4}
+\contentsline {subsubsection}{\numberline {5.4.1}Traits}{15}{subsubsection.5.4.1}
+\contentsline {subsubsection}{\numberline {5.4.2}Objects}{15}{subsubsection.5.4.2}
+\contentsline {subsubsection}{\numberline {5.4.3}Classes}{16}{subsubsection.5.4.3}
+\contentsline {subsection}{\numberline {5.5}Functional and exotic features}{16}{subsection.5.5}
+\contentsline {subsubsection}{\numberline {5.5.1}Pattern matching}{16}{subsubsection.5.5.1}
+\contentsline {subsubsection}{\numberline {5.5.2}Vars and Vals}{16}{subsubsection.5.5.2}
+\contentsline {subsubsection}{\numberline {5.5.3}First class functions}{16}{subsubsection.5.5.3}
+\contentsline {subsubsection}{\numberline {5.5.4}Case classes}{17}{subsubsection.5.5.4}
+\contentsline {subsubsection}{\numberline {5.5.5}Collection API}{17}{subsubsection.5.5.5}
+\contentsline {subsection}{\numberline {5.6}Weaknesses}{18}{subsection.5.6}
+\contentsline {subsection}{\numberline {5.7}Example usage of case classes and first class functions}{18}{subsection.5.7}
+\contentsline {section}{\numberline {6}Actor model}{20}{section.6}
+\contentsline {subsection}{\numberline {6.1}The free lunch is over}{20}{subsection.6.1}
+\contentsline {subsection}{\numberline {6.2}Problems with conventional models of concurrency}{21}{subsection.6.2}
+\contentsline {subsubsection}{\numberline {6.2.1}Threads are expensive}{21}{subsubsection.6.2.1}
+\contentsline {subsubsection}{\numberline {6.2.2}Thread based concurrency is hard}{21}{subsubsection.6.2.2}
+\contentsline {subsection}{\numberline {6.3}Actor model overview}{22}{subsection.6.3}
+\contentsline {subsection}{\numberline {6.4}Fundamental concepts}{22}{subsection.6.4}
+\contentsline {subsection}{\numberline {6.5}Enter Akka}{23}{subsection.6.5}
 \contentsline {subsubsection}{\numberline {6.5.1}Actors}{23}{subsubsection.6.5.1}
-\contentsline {subsubsection}{\numberline {6.5.2}Remote access}{23}{subsubsection.6.5.2}
-\contentsline {subsubsection}{\numberline {6.5.3}Fault tolerance}{23}{subsubsection.6.5.3}
-\contentsline {section}{\numberline {7}Design and implementation}{24}{section.7}
-\contentsline {subsection}{\numberline {7.1}Minecraft}{24}{subsection.7.1}
+\contentsline {subsubsection}{\numberline {6.5.2}Remote access}{24}{subsubsection.6.5.2}
+\contentsline {subsubsection}{\numberline {6.5.3}Fault tolerance}{24}{subsubsection.6.5.3}
+\contentsline {section}{\numberline {7}Design and implementation}{25}{section.7}
+\contentsline {subsection}{\numberline {7.1}Minecraft}{25}{subsection.7.1}
 \contentsline {subsubsection}{\numberline {7.1.1}Data types}{25}{subsubsection.7.1.1}
-\contentsline {subsubsection}{\numberline {7.1.2}Metadata field}{25}{subsubsection.7.1.2}
-\contentsline {subsection}{\numberline {7.2}Design of Specus}{26}{subsection.7.2}
-\contentsline {subsubsection}{\numberline {7.2.1}API and implementation}{26}{subsubsection.7.2.1}
-\contentsline {subsubsection}{\numberline {7.2.2}Server}{26}{subsubsection.7.2.2}
-\contentsline {subsubsection}{\numberline {7.2.3}Node}{27}{subsubsection.7.2.3}
-\contentsline {subsection}{\numberline {7.3}Plugin system}{27}{subsection.7.3}
-\contentsline {subsubsection}{\numberline {7.3.1}General design}{27}{subsubsection.7.3.1}
-\contentsline {subsubsection}{\numberline {7.3.2}Implementation}{28}{subsubsection.7.3.2}
-\contentsline {subsubsection}{\numberline {7.3.3}Communication among plugins}{29}{subsubsection.7.3.3}
-\contentsline {subsubsection}{\numberline {7.3.4}Stats}{29}{subsubsection.7.3.4}
-\contentsline {subsubsection}{\numberline {7.3.5}Http frontend}{29}{subsubsection.7.3.5}
-\contentsline {subsubsection}{\numberline {7.3.6}Minecraft}{30}{subsubsection.7.3.6}
-\contentsline {subsection}{\numberline {7.4}IO \& Clients}{31}{subsection.7.4}
-\contentsline {subsection}{\numberline {7.5}Tools and reasoning behind them}{31}{subsection.7.5}
-\contentsline {subsubsection}{\numberline {7.5.1}Redis}{31}{subsubsection.7.5.1}
-\contentsline {subsubsection}{\numberline {7.5.2}Netty}{32}{subsubsection.7.5.2}
-\contentsline {section}{\numberline {8}Conclusion}{33}{section.8}
-\contentsline {subsection}{\numberline {8.1}Comparison to official server}{33}{subsection.8.1}
-\contentsline {subsection}{\numberline {8.2}Testing}{34}{subsection.8.2}
-\contentsline {subsection}{\numberline {8.3}Review of design}{35}{subsection.8.3}
-\contentsline {subsection}{\numberline {8.4}Review of used tools}{35}{subsection.8.4}
-\contentsline {subsubsection}{\numberline {8.4.1}Scala}{35}{subsubsection.8.4.1}
-\contentsline {subsubsection}{\numberline {8.4.2}Akka}{36}{subsubsection.8.4.2}
-\contentsline {subsubsection}{\numberline {8.4.3}Redis and Netty}{37}{subsubsection.8.4.3}
-\contentsline {subsection}{\numberline {8.5}Room for improvement and new features}{37}{subsection.8.5}
-\contentsline {subsection}{\numberline {8.6}What have I learned}{37}{subsection.8.6}
+\contentsline {subsubsection}{\numberline {7.1.2}Metadata field}{26}{subsubsection.7.1.2}
+\contentsline {subsection}{\numberline {7.2}Design of Specus}{27}{subsection.7.2}
+\contentsline {subsubsection}{\numberline {7.2.1}API and implementation}{27}{subsubsection.7.2.1}
+\contentsline {subsubsection}{\numberline {7.2.2}Server}{27}{subsubsection.7.2.2}
+\contentsline {subsubsection}{\numberline {7.2.3}Node}{28}{subsubsection.7.2.3}
+\contentsline {subsection}{\numberline {7.3}Plugin system}{28}{subsection.7.3}
+\contentsline {subsubsection}{\numberline {7.3.1}General design}{28}{subsubsection.7.3.1}
+\contentsline {subsubsection}{\numberline {7.3.2}Implementation}{29}{subsubsection.7.3.2}
+\contentsline {subsubsection}{\numberline {7.3.3}Communication among plugins}{30}{subsubsection.7.3.3}
+\contentsline {subsubsection}{\numberline {7.3.4}Stats}{30}{subsubsection.7.3.4}
+\contentsline {subsubsection}{\numberline {7.3.5}Http frontend}{30}{subsubsection.7.3.5}
+\contentsline {subsubsection}{\numberline {7.3.6}Minecraft}{31}{subsubsection.7.3.6}
+\contentsline {subsection}{\numberline {7.4}IO \& Clients}{32}{subsection.7.4}
+\contentsline {subsection}{\numberline {7.5}Tools and reasoning behind them}{32}{subsection.7.5}
+\contentsline {subsubsection}{\numberline {7.5.1}Redis}{32}{subsubsection.7.5.1}
+\contentsline {subsubsection}{\numberline {7.5.2}Netty}{33}{subsubsection.7.5.2}
+\contentsline {section}{\numberline {8}Conclusion}{34}{section.8}
+\contentsline {subsection}{\numberline {8.1}Comparison to official server}{34}{subsection.8.1}
+\contentsline {subsection}{\numberline {8.2}Testing}{35}{subsection.8.2}
+\contentsline {subsection}{\numberline {8.3}Review of design}{36}{subsection.8.3}
+\contentsline {subsection}{\numberline {8.4}Review of used tools}{36}{subsection.8.4}
+\contentsline {subsubsection}{\numberline {8.4.1}Scala}{36}{subsubsection.8.4.1}
+\contentsline {subsubsection}{\numberline {8.4.2}Akka}{37}{subsubsection.8.4.2}
+\contentsline {subsubsection}{\numberline {8.4.3}Redis and Netty}{38}{subsubsection.8.4.3}
+\contentsline {subsection}{\numberline {8.5}Room for improvement and new features}{38}{subsection.8.5}
+\contentsline {subsection}{\numberline {8.6}What have I learned}{38}{subsection.8.6}

@@ -14,11 +14,12 @@
 #+LINK_HOME:
 #+XSLT:
 
+
 * Thanks
 I would like to thank to the following people and communities for help with my thesis:
 - Mr. Miroslav Uller for valuable comments and guidance
 - Everyone from Minecraft Coalition Wiki
-  [fn::http://www.wiki.vg/Main_Page] for all their hard work on
+  \cite{minecraftcoalition} for all their hard work on
   writing great documentation of Minecarft protocol
 - Everyone from #mcdevs IRC channel for help with debugging and
   understanding of Minecraft protocol
@@ -36,7 +37,7 @@ In my thesis I try to capture my hands on experience with
 writing one such server using very modern techniques and tools in
 order to create architecture, that is easy to reason about, maintain
 and extend. I will be implementing a subset of business logic for
-Minecraft game, which should be demanding enough to prove the points
+Minecraft\cite{minecrafthome} game, which should be demanding enough to prove the points
 I'm making further in the paper.
 
 * Minecraft
@@ -47,7 +48,7 @@ interesting game with a lot of potential.
 
 ** What is Minecraft
 *** Overview
-Minecraft is a indie game developed by Markus Presson and Mojang which
+Minecraft is a indie game developed by Markus Presson\cite{notch} and Mojang\cite{mojang} which
 was published in 2011. It's a open world game, in which players are
 placed in a world made of blocks. These blocks can be mined and used
 as a building material.
@@ -56,7 +57,10 @@ Players use these blocks to build various items or
 structures. For example, there has been successful attempts to build
 USS Enterprise, Taj Mahal, Eiffel Tower and basically anything one
 could imagine.
-
+#+CAPTION:    Minas Tirith, city from famous movie Lord of the Rings, built in Minecraft
+#+LABEL:      fig:SED-HR4049
+#+ATTR_LaTeX: width=12cm
+[[./pics/minas_tirith.png]]
 
 *** Maps
 When a game of Minecraft is started, player may choose to generate a
@@ -68,7 +72,7 @@ generated when needed.
 
 Maps in Minecraft are made of blocks. To organize these blocks, maps
 are split into so called /chunks/. These chunks are simply 16 blocks
-wide, 16 blocks deep and 128 blocks high [fn::http://notch.tumblr.com/post/3746989361/terrain-generation-part-1].
+wide, 16 blocks deep and 128 blocks high \cite{mcmaps}.
 When a client connects to server, server sends the map using these
 chunks.
 
@@ -93,13 +97,18 @@ Minecraft, but the basic ones are axe, shovel, hoe and pickaxe. Each
 of these can be made from either wood, stone, gold, iron or diamond
 which determines it's quality. Items are crafted by placing blocks
 into 2x2 or 3x3 matrix into different shapes, which determines the
-item to be crafted.
+item to be crafted \cite{minecraftCrafting}.
 
 Tools described above are useful for increasing efficiency of
 gathering blocks. For example iron pickaxe can crack stone a lot
 faster then wooden pickaxe. Some of the blocks can't even be gathered
 without good enough tool. Diamond block, for instance, require at
 least iron pickaxe.
+
+#+CAPTION:    Example of Minecraft crafting system, wooden pickaxe being made from 2 planks of wood and 3 wooden blocks
+#+LABEL:      fig:SED-HR4049
+#+ATTR_LaTeX: width=10cm
+[[./pics/crafting.png]]
 
 There are other items player can craft, though. For example, player
 can create a furnace, which uses coal blocks as fuel and can smelt
@@ -135,7 +144,7 @@ Minecraft. Player looses health when dropping from high enough edge,
 while being under water for too long or while standing in fire or
 lava.
 
-The most common cause of health loss, however, are monsters. Monsters
+The most common cause of health loss, however, are monsters \cite{Monsters}. Monsters
 spawn in the places where there is no light available. Light can come
 either from sun, torches, fire or lava. There is a number of monsters
 in Minecraft: 
@@ -158,9 +167,8 @@ Melee creature that can teleport, but attacks player only if player
 looks at it first. Otherwise it's not hostile.
 
 
-
 *** Redstone
-Redstone is one of the most interesting features of
+Redstone\cite{redstone} is one of the most interesting features of
 Minecraft. Redstone is a rare ore that can be found deep in the
 ground. When mined, it produces several Redstone crystals.
 
@@ -233,7 +241,7 @@ people to create impressive structures. Those people may not want to
 necessarily deal with all the stuff Minecraft contains, such as
 monsters, inventory management, mining blocks and so on.
 
-In creative mode, player has access to infinite resources from within
+In creative mode \cite{creativemode}, player has access to infinite resources from within
 his inventory. He can also destroy any block with 1 hit and is allowed
 to fly. He also takes no damage and spawning of monsters is disabled.
 
@@ -258,7 +266,7 @@ though, in order to create plugins and extensions for the game. And
 they really managed to make some amazing plugins. In this part, I will
 mention few of the most interesting extensions.
 *** Tekkit mod
-Tekkit is a collection of multiple extensions, which adds concept of
+Tekkit\cite{tekkit} is a collection of multiple extensions, which adds concept of
 the electrical power to the game (among other things). It adds
 randomly generated pools of oil into the maps, which can be gathered,
 processed to fuel and used in electrical engines to power
@@ -272,9 +280,9 @@ example nuclear reactors, which players can build. They need to be
 cooled down, however, or they will explode and contaminate area with
 radioactivity.
 *** Computercraft
-Another very interesting extension is Computercraft. It adds
+Another very interesting extension is Computercraft\cite{computercraft}. It adds
 programmable robots into the game. Robots are programmed via in game
-terminal using embedded LUA [fn::www.lua.org] programming language
+terminal using embedded LUA\cite{lua} programming language
 (added by the extension).
 
 There are for example mining probes, which can be programmed to search
@@ -391,7 +399,7 @@ a list:
   - must store all the state in a remote database
  
 * Scala
-In this chapter, I will try to explain why i chose to use Scala
+In this chapter, I will try to explain why i chose to use Scala\cite{scala}
 language for implementing Specus. Discuss strengths of Scala compared
 to other alternatives and provide a quick overview of the most useful
 features which I used in Specus. In the last part of this chapter, I
@@ -414,33 +422,30 @@ choice to choose Scala.
 Scala source is compiled into JVM bytecode. That means that any Scala
 projects automatically benefits from all the effort people have put
 into optimizing JVM aswell as features that speed up computations
-during runtime (JIT compilation, code inlining etc). JVM programs are,
-obviously, platform independent (as long as Java Runtime Environment
-is avalible for given platform), so one gets platform independence for
-free.
+during runtime. JVM programs are, obviously, platform independent (as
+long as Java Runtime Environment is avalible for given platform), so
+one gets platform independence for free.
 
 
 There also exist a number of great and mature tools and libraries
 written and compiled for JVM platform, which can be very easily used
 while working with Scala. For example one could use a
-Proguard[fn::http://proguard.sourceforge.net/] program to minimize the
+Proguard \cite{proguard} program to minimize the
 jar produced by Scala compiler by removing the unused classes from
 libraries and compiled code.
 
 ** Quick Scala overview
 Scala was designed by Martin Odersky and his team at ÉCOLE
-POLYTECHNIQUE FÉDÉRALE DE LAUSANNE
-[fn::http://www.epfl.ch/index.en.html]. The name stands for Scalable
+POLYTECHNIQUE FÉDÉRALE DE LAUSANNE \cite{epfl}. The name stands for Scalable
 language, which describes the language rather well. Please note, that
 /Scalable language/ is not meant in a sense of horizontal/vertical
 scalability (Scala is as good as any language in that sense of a the
 word), but authors rather meant it in a sense that the language
-features scale with the experience of user
-[fn::http://www.scala-lang.org/node/8610] . In Scala, it is relatively
+features scale with the experience of user \cite{scalaexperience}.
+ In Scala, it is relatively
 easy to design libraries that appear to be language features. For
-example the new /try with resource/ statement added in JDK7
- [fn::http://docs.oracle.com/Javase/7/docs/technotes/guides/language/try-with-resources.html]
- could be implemented in Scala on library level very easily.
+example the new /try with resource/ statement added in JDK7 \cite{trywr}
+ could be implemented in Scala on library level very easily \cite{scalaarm}.
 
 
 Scala is a rather unique mix of object oriented concepts and
@@ -463,7 +468,7 @@ In Scala, trait are kind of an mix between Java interfaces and
  header of the method, implementation is left to the user) or can
  contain implementation as well. Traits can not only define methods,
  but fields as well, although it's recommended to use methods, which
- can be later overwritten by vals.
+ can be later overwritten by vals (described below).
 
 
 Traits can extend 0 or more traits. Trait can also declare it's
@@ -511,7 +516,7 @@ of these concepts.
 *** Pattern matching
 One of the features I liked most about Haskell was pattern
 matching. One can think of pattern matching as about more powerful
-version of switch/case statements.
+version of switch/case statements \cite{scalapm}.
 
 
 User defines a sequence of patterns and callbacks that is called when
@@ -578,7 +583,7 @@ be accessed (as fields) and are immutable.
 *** Collection API
 Scala has very impressive set of collections. It has common
 data structures - list, vector, stack, queue, map, set and possibly
-even more. All of these are available in multiple versions. When not
+even more \cite{scalacollections}. All of these are available in multiple versions. When not
 specified otherwise, data structures are available as so called
 "persistent data structures". Persistent data structure is a data
 structure, that when altered creates what seems like a new instance of
@@ -662,8 +667,7 @@ read a byte array and parse it into the given packet case class.
 
 Most naive, but in some languages the only solution would be simply
 creating codecs by hand and copy-pasting the encoding code in. One
-might think that it would be possible to use Java reflection API
-[fn::http://docs.oracle.com/Javase/1.4.2/docs/api/Java/lang/reflect/package-summary.html]
+might think that it would be possible to use Java reflection API \cite{reflection}
 to figure out what the type of value are the fields of given packet
 and parse/encode them accordingly.
 
@@ -680,8 +684,7 @@ packet just from it's constructor.
 
 The real problem is with encoding the packet. While we can get all
 declared fields of given class, those fields are given in no
-particular order
-[fn::http://docs.oracle.com/Javase/1.3/docs/api/Java/lang/Class.html]. We
+particular order \cite{class}. We
 could of course use tricks like annotations to establish the order of
 fields, but that would introduce more boilerplate and in the end would
 make our code more confusing.
@@ -712,12 +715,12 @@ because we couldn't add all the data types into it, obviously. What we
 can do is create an API which would use Scala generics and made sure
 that functions have proper headers and add it to our maps for us.
 
-=def addType[A](encode:(A)=>ChannelBuffer,decode:(ChannelBuffer)=>A)=
+=def addType[A](enc:(A)=>ChannelBuffer,dec:(ChannelBuffer)=>A)=
 
 The method signature above symbolizes how such API could look
-like. The method takes two functions, one called =encode= which takes
+like. The method takes two functions, one called =enc= which takes
 argument of type =A= and returns =ChannelBuffer= and function called
-decode, which takes =ChannelBuffer= and returns type =A=.
+=dec=, which takes =ChannelBuffer= and returns type =A=.
 
 Basically, using approach described above, I was able to save myself
 writing about 60 classes full of boilerplate code, in which it would
@@ -734,8 +737,7 @@ for actor systems on JVM platform.
 
 ** The free lunch is over
 "The free lunch is over" is an article written by Herb Sutter that
-appeared in Dr.Dobb's journal in 2005
-[fn::http://www.gotw.ca/publications/concurrency-ddj.htm]. He talks
+appeared in Dr.Dobb's journal in 2005 \cite{freelunch}. He talks
 about the end of an era, in which software is getting faster (not more
 performant) simply by the fact that the hardware in getting faster. He
 argues, that while historically companies like AMD or Intel focused on
@@ -790,14 +792,12 @@ become really hard to use. Because threads share memory heap, it is
 very hard to keep data consistency and because threads can use all the
 resources on the heap, deadlocks can occur very easily and it is not a
 trivial exercise to eliminate all the bugs that can come from such
-model[fn::http://www.eecs.berkeley.edu/Pubs/TechRpts/2006/EECS-2006-1.pdf].
+model \cite{threads}.
 
 ** Actor model overview
 Actor model is a model of computation, designed to deal with problems
 in a highly concurrent, asynchronous and fault tolerant fashion. It
-was first published by Carl Hewitt in 1973 [fn::Carl Hewitt; Peter
-Bishop and Richard Steiger (1973). A Universal Modular Actor Formalism
-for Artificial Intelligence. IJCAI.]. Actor model is widely used in
+was first published by Carl Hewitt in 1973 \cite{actor}. Actor model is widely used in
 systems where reliability, availability, scalability and concurrency
 are important features.And as the number of cores per processors
 continue to increase, it is reasonable to expect that the demand for
@@ -808,9 +808,9 @@ Probably the most popular actor implementation
 today - the Erlang OTP framework, has been used in many software
 projects and services. Here is a few examples of Erlang applications:
 
- - nosql databases: CouchDB, Riak
- - message queues: RabbitMQ
- - web servers: YAWS
+ - nosql databases: CouchDB\cite{couchdb}, Riak\cite{riak}
+ - message queues: RabbitMQ\cite{rabbitmq}
+ - web servers: YAWS\cite{yaws}
 
 ** Fundamental concepts
 In actor model, computation is processed using Actors. By Actor we mean an entity which can:
@@ -872,7 +872,7 @@ Every actor model implementation is different from others. For
 example, just for Scala programming languages there are 4 different
 implementations as far as i know (Lift actors, Scala Actors from
 standard library, Scalaz actors and Akka actors). I decided to use
-Akka actors, because they come as part of a great library and support
+Akka actors \cite{akka}, because they come as part of a great library and support
 remote communication between JVMs, which saved me a lot of work. Akka
 actors also support Erlang-like fault tolerance and -ask- kind of
 messaging, which is described below.
@@ -894,7 +894,7 @@ processing.
 
 We can then instantiate the actor by calling the factory method
 =actorOf=. By calling this method, the user only get instance of class
-=ActorRef=. That instance represents the actor in the system, but does
+=ActorRef= \cite{akkaactor}. That instance represents the actor in the system, but does
 not contain the actor. This is so that the state of the actor can
 never be compromised, because user can never get reference to the
 actual actor. =ActorRef= supports methods ! (pronounced bang) and ?
@@ -935,10 +935,10 @@ check input data for all possible inconsistencies and only when all
 tests pass, data are allowed to be further processed.
 
 
-On the other hand, Akka accepts the fact that no code is bug-less, so
+On the other hand, Akka accepts the fact that things will go wrong, so
 instead of trying to catch all the invalid cases, it encourages
 programmers to embrace the failure, and focus on recovery from
-failure. Every time an exception is thrown in Actor, it gets
+failure \cite{akkaft}. Every time an exception is thrown in Actor, it gets
 restarted. By that it's meant that the new, fresh instance of Actor is
 created and injected into system in such a manner that all the
 ActorRefs to the original actor are valid and point to the newly
@@ -984,7 +984,7 @@ of writing this thesis, Minecraft version is 1.1.
 For the most part, Minecraft packets consists of only few well defined
 data types. Some packets however use ad-hoc formatted
 data structures. Following is the list of packet type commonly used in
-protocol:
+protocol\cite{mcprotocol}:
 
 
 - integer fields - signed numbers using two's complement encoding
@@ -1000,7 +1000,7 @@ protocol:
 *** Metadata field
 Metadata is a format introduced by Minecraft in order to efficiently
 (space wise) encode and decode triplets of data (identifier of piece
-of data, data type and value itself) of variable length. Every triplet
+of data, data type and value itself) of variable length \cite{mcmeta}. Every triplet
 begins with a byte. Top 3 bits (with =0xE0= mask) of the byte encode
 the data type of value while the bottom 5 bits (mask =0x1F=) encode the
 id of entity. The value itself depends on the data type and is parsed
@@ -1131,7 +1131,7 @@ Packets parsed by server part of plugin.
 
 Plugin is basically just a jar file which contains a plugin descriptor
 on predefined class path. Plugin descriptor is a simple file
-containing a JSON encoded information about plugin, such as it's
+containing a JSON\cite{json} encoded information about plugin, such as it's
 dependencies, it's version, plugin identifier (string representation
 of plugin, usually same as the Java package in which the code of
 plugin is placed), author of the plugin and most importantly the entry
@@ -1222,7 +1222,7 @@ readable. So i created Http frontend plugin. It's only purpose is to
 display information gathered by stats plugin.
 
 
-It uses Jetty embedded http server which listens on 9090 port. When a
+It uses Jetty \cite{jetty} embedded http server which listens on 9090 port. When a
 new http request is issued to that port for =/= resource, it sends
 message to the stats plugin for most up-to-date data and returns them
 formatted for easier reading. It should go without saying that this
@@ -1301,9 +1301,15 @@ serializable, so they can be easily passed around.
 Description of how actual IO is implemented can be found below.
 ** Tools and reasoning behind them
 *** Redis
-Redis is a high performance key-value database that is used in Specus. Unlike most of key-value databases, it supports a number of different value types:
-- string: A binary safe string type, which can be used for storing binary data with efficient random access. In Specus it is used for storing Minecraft map chunks.
-- hash: A hash map type, which is optimized for storing multiple key-value pairs. It is used for storing data about clients in Specus.
+Redis \cite{redis} is a high performance key-value database that is
+used in Specus. Unlike most of key-value databases, it supports a
+number of different value types\cite{redistypes}:
+- string: A binary safe string type, which can be used for storing
+  binary data with efficient random access. In Specus it is used for
+  storing Minecraft map chunks.
+- hash: A hash map type, which is optimized for storing multiple
+  key-value pairs. It is used for storing data about clients in
+  Specus.
 - set: A typical set data structure, used to store client ID's in specus.
 - sorted set: A typical set, except sorted.
 - list: a linked list data structure.
@@ -1313,7 +1319,7 @@ synchronous. However, thanks to Akka actors it was very easy to wrap
 the synchronous client into an Actor to create asynchronous interface.
 
 *** Netty
-Netty is high performance library for network IO. It's abstraction
+Netty \cite{netty} is high performance library for network IO. It's abstraction
 over Java io functionality, which supports both TCP and UDP. In
 Specus, it is configured to use asynchronous processing using
 non blocking nio functionality. It uses 3 main components:
@@ -1411,7 +1417,7 @@ will automatically update all the instances in the cluster.
 
 A great advantage of Specus over official implementation is the design
 with extensions in mind. While there is unofficial and successful
-Bukkit project [fn::www.bukkit.org] which aims to provide API for
+Bukkit project \cite{bukkit} which aims to provide API for
 plugin creation for the official server, I can only imagine how hard
 people had to work to reverse engineer official server in order to
 provide such API. On the other hand, entire Minecraft is implemented
@@ -1530,7 +1536,7 @@ when streaming the map chunks to player for the first time. We create
 requests for sending the map chunks in a future, then we wait until they are
 all finished and then we send player the instruction to spawn.
 *** Redis and Netty
-I had no problems using Redis nor Netty. I must say I was very
+    I had no problems using Redis nor Netty. I must say I was very
 impressed with the simplicity of both of their APIs. Netty especially
 provides a very easy to use API which doesn't bother user with the low
 level implementation of networking and threading that goes along with it.
@@ -1549,3 +1555,7 @@ of now, most of the Minecraft node is plagued with =map= and =flatMap=
 calls.
 
 ** What have I learned
+
+
+\bibliography{bibrary}
+\bibliographystyle{unsrt}

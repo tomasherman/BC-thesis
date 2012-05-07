@@ -1,0 +1,176 @@
+\begin{thebibliography}{10}
+
+\bibitem{minecraftcoalition}
+Minecraft coalition wikipedia.
+\newblock \url{http://www.wiki.vg}.
+
+\bibitem{minecrafthome}
+Minecraft homepage.
+\newblock \url{http://minecraft.net}.
+
+\bibitem{notch}
+Homepage or markus presson, creator of minecraft.
+\newblock \url{http://www.mojang.com/notch/}.
+
+\bibitem{mojang}
+Mojang - company behind minecraft.
+\newblock \url{www.mojang.com}.
+
+\bibitem{mcmaps}
+Marcus Presson.
+\newblock Terrain generation part i.
+\newblock
+  \url{http://notch.tumblr.com/post/3746989361/terrain-generation-part-1},
+  2011.
+
+\bibitem{minecraftCrafting}
+Minecraft - crafting.
+\newblock \url{http://www.minecraftwiki.net/wiki/Crafting}.
+
+\bibitem{Monsters}
+Minecraft - monsters.
+\newblock \url{http://www.minecraftwiki.net/wiki/Monsters}.
+
+\bibitem{redstone}
+Minecraft - redstone.
+\newblock \url{http://www.minecraftwiki.net/wiki/Redstone_Circuits}.
+
+\bibitem{creativemode}
+Minecraft - creative mode.
+\newblock \url{http://www.minecraftwiki.net/wiki/Creative_Mode}.
+
+\bibitem{tekkit}
+Tekkit - minecraft plugin.
+\newblock \url{http://www.technicpack.net/tekkit/}.
+
+\bibitem{computercraft}
+Computercraft - minecraft plugin.
+\newblock \url{http://computercraft.info}.
+
+\bibitem{lua}
+Lua language homepage.
+\newblock \url{http://www.lua.org}.
+
+\bibitem{scala}
+Scala programming language.
+\newblock \url{http://www.scala.org}.
+
+\bibitem{proguard}
+Proguard homepage.
+\newblock \url{http://proguard.sourceforge.org}.
+
+\bibitem{epfl}
+{\'E}cole polytechnique f{\'e}d{\'e}rale de lausanne.
+\newblock \url{http://epfl.ch/index.en.html}.
+
+\bibitem{scalaexperience}
+Scala levels - expertise guide.
+\newblock http://www.scala-lang.org/node/8610.
+
+\bibitem{trywr}
+Java try-with-resources statement.
+\newblock
+  \url{http://docs.oracle.com/javase/tutorial/essential/exceptions/tryResourceClose.html}.
+
+\bibitem{scalaarm}
+Scala arm - library for automatic resource management.
+\newblock \url{https://github.com/jsuereth/scala-arm}.
+
+\bibitem{scalapm}
+Michael Ruegg.
+\newblock Pattern matching in scala.
+\newblock Technical report, University of Applied Sciences Rapperswil, 2009.
+
+\bibitem{scalacollections}
+Lex~Spoon Martin~Odersky.
+\newblock The architecture of scala collections.
+\newblock
+  \url{http://www.scala-lang.org/docu/files/collections-api/collections-impl.html}.
+
+\bibitem{reflection}
+Java reflection api documentation.
+\newblock
+  \url{http://docs.oracle.com/Javase/1.4.2/docs/api/java/lang/reflect/package-summary.html}.
+
+\bibitem{class}
+Java class api documentation.
+\newblock
+  \url{http://docs.oracle.com/javase/1.3/docs/api/Java/lang/Class.html}, 1999.
+
+\bibitem{freelunch}
+Herb Sutter.
+\newblock The free lunch is over.
+\newblock {\em Dr. Dobb's}, 2005.
+
+\bibitem{threads}
+Edward~A. Lee.
+\newblock The problem with threads.
+\newblock Technical report, Electrical Engineering and Computer Sciences
+  University of California at Berkeley, 2006.
+
+\bibitem{actor}
+Richard~Steiger Carl~Hewitt, Peter~Bishop.
+\newblock A universal modular actor formalism for artificial intelligence,
+  1973.
+
+\bibitem{couchdb}
+Couchdb - actor based database.
+\newblock \url{http://couchdb.apache.org/}.
+
+\bibitem{riak}
+Riak - actor based database.
+\newblock \url{http://wiki.basho.com/}.
+
+\bibitem{rabbitmq}
+Rabbitmq - actor based message queue.
+\newblock \url{http://www.rabbitmq.com/}.
+
+\bibitem{yaws}
+Yaws - actor based http server.
+\newblock \url{http://yaws.hyber.org/}.
+
+\bibitem{akka}
+Akka framework.
+\newblock \url{http://www.akka.io}.
+
+\bibitem{akkaactor}
+Akka actor documentation.
+\newblock \url{http://doc.akka.io/docs/akka/1.3/scala/actors.html}.
+
+\bibitem{akkaft}
+Akka fault tolerance documentation.
+\newblock \url{http://doc.akka.io/docs/akka/1.3/scala/fault-tolerance.html}.
+
+\bibitem{mcprotocol}
+Minecraft protocol.
+\newblock \url{http://www.wiki.vg/Protocol}.
+
+\bibitem{mcmeta}
+Minecraft metadata format.
+\newblock \url{http://www.wiki.vg/Entities#Entity_Metadata_Format}.
+
+\bibitem{json}
+Json serialization format.
+\newblock \url{http://www.json.org/}.
+
+\bibitem{jetty}
+Jetty webserver homepage.
+\newblock \url{http://jetty.codehaus.org/jetty/}.
+
+\bibitem{redis}
+Redis datastore.
+\newblock \url{http://redis.com}.
+
+\bibitem{redistypes}
+Redis data types.
+\newblock \url{http://redis.io/topics/data-types-intro}.
+
+\bibitem{netty}
+Netty io framework.
+\newblock \url{http://www.jboss.org/netty}.
+
+\bibitem{bukkit}
+Api for plugin development of official minecraft implementation.
+\newblock \url{http://www.bukkit.org}.
+
+\end{thebibliography}

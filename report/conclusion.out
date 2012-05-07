@@ -1,9 +1,0 @@
-\BOOKMARK [1][-]{section.1}{Conclusion}{}% 1
-\BOOKMARK [2][-]{subsection.1.1}{Comparison to official server}{section.1}% 2
-\BOOKMARK [2][-]{subsection.1.2}{Testing}{section.1}% 3
-\BOOKMARK [2][-]{subsection.1.3}{Review of design}{section.1}% 4
-\BOOKMARK [2][-]{subsection.1.4}{Review of used tools}{section.1}% 5
-\BOOKMARK [3][-]{subsubsection.1.4.1}{Scala}{subsection.1.4}% 6
-\BOOKMARK [3][-]{subsubsection.1.4.2}{Akka}{subsection.1.4}% 7
-\BOOKMARK [3][-]{subsubsection.1.4.3}{Redis and Netty}{subsection.1.4}% 8
-\BOOKMARK [2][-]{subsection.1.5}{Room for improvement and new features}{section.1}% 9

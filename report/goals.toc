@@ -1,5 +1,0 @@
-\contentsline {section}{\numberline {1}Goals}{1}{section.1}
-\contentsline {subsection}{\numberline {1.1}Reasoning}{1}{subsection.1.1}
-\contentsline {subsubsection}{\numberline {1.1.1}Server related goals}{2}{subsubsection.1.1.1}
-\contentsline {subsubsection}{\numberline {1.1.2}Minecraft related goals}{3}{subsubsection.1.1.2}
-\contentsline {subsubsection}{\numberline {1.1.3}Brief summary of goals}{3}{subsubsection.1.1.3}
